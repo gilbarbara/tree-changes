@@ -1,0 +1,6 @@
+.tmp
+coverage
+es
+lib
+node_modules
+reports

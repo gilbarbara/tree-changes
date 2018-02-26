@@ -1,0 +1,15 @@
+[ignore]
+.*/node_modules/config-chain/test/broken.json
+.*/node_modules/npmconf/test/.*
+
+[include]
+
+[libs]
+
+[options]
+
+munge_underscores=true
+
+suppress_type=$FlowIssue
+suppress_type=$FlowFixMe
+suppress_type=$FixMe

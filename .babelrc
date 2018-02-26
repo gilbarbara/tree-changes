@@ -1,0 +1,30 @@
+{
+  "presets": [
+    ["env", {
+      "useBuiltIns": true,
+      "modules": false,
+      "targets": {
+        "browsers": ["last 2 versions", "safari >= 7"]
+      }
+    }],
+    "react",
+    "stage-1"
+  ],
+  "plugins": [],
+  "compact": "false",
+  "env": {
+    "production": {
+      "plugins": [
+        "array-includes",
+        "external-helpers",
+        "transform-flow-strip-types"
+      ]
+    },
+    "test": {
+      "plugins": [
+        "transform-es2015-modules-commonjs"
+      ],
+      "sourceMaps": "both"
+    }
+  }
+}

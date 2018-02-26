@@ -1,0 +1,77 @@
+{
+  "name": "tree-changes",
+  "version": "0.1.0",
+  "description": "Helpers function to get tree changes between two datasets",
+  "author": "Gil Barbara <gilbarbara@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gilbarbara/tree-changes.git"
+  },
+  "bugs": {
+    "url": "https://github.com/gilbarbara/tree-changes/issues"
+  },
+  "homepage": "https://github.com/gilbarbara/tree-changes#readme",
+  "main": "lib/index.js",
+  "module": "es/index.js",
+  "files": [
+    "es",
+    "lib",
+    "src"
+  ],
+  "keywords": [
+    "comparison",
+    "tree"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-eslint": "^8.2.1",
+    "babel-jest": "^22.2.0",
+    "babel-plugin-array-includes": "^2.0.3",
+    "babel-plugin-external-helpers": "^6.22.0",
+    "babel-plugin-transform-flow-strip-types": "^6.22.0",
+    "babel-plugin-transform-react-remove-prop-types": "^0.4.13",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-stage-1": "^6.24.1",
+    "bundlesize": "^0.16.0",
+    "chalk": "^2.3.0",
+    "cross-env": "^5.1.3",
+    "eslint": "^4.17.0",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-babel": "^4.1.2",
+    "eslint-plugin-flowtype": "^2.42.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
+    "flow-bin": "^0.65.0",
+    "husky": "^0.14.3",
+    "jest": "^22.2.1",
+    "rimraf": "^2.6.2",
+    "rollup": "^0.55.4",
+    "rollup-plugin-babel": "^3.0.3",
+    "rollup-plugin-commonjs": "^8.3.0",
+    "rollup-plugin-node-resolve": "^3.0.2"
+  },
+  "scripts": {
+    "build": "npm run clean && npm run build:commonjs && npm run build:es",
+    "build:commonjs": "cross-env NODE_ENV=production rollup -c -f cjs -o lib/index.js",
+    "build:es": "cross-env NODE_ENV=production rollup -c",
+    "watch": "rollup -cw",
+    "clean": "rimraf es && rimraf lib",
+    "lint": "eslint --ext .js --ext .jsx src",
+    "test": "jest --coverage",
+    "test:watch": "jest --watch",
+    "bundlesize": "bundlesize",
+    "precommit": "npm run lint && npm test && bundlesize",
+    "prepublishOnly": "npm run build"
+  },
+  "bundlesize": [
+    {
+      "path": "./es/index.js",
+      "maxSize": "8 kB"
+    },
+    {
+      "path": "./lib/index.js",
+      "maxSize": "8 kB"
+    }
+  ]
+}
