@@ -23,6 +23,9 @@
     "tree"
   ],
   "license": "MIT",
+  "dependencies": {
+    "deep-diff": "^0.3.8"
+  },
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-eslint": "^8.2.1",
@@ -67,14 +70,11 @@
   "bundlesize": [
     {
       "path": "./es/index.js",
-      "maxSize": "8 kB"
+      "maxSize": "1 kB"
     },
     {
       "path": "./lib/index.js",
-      "maxSize": "8 kB"
+      "maxSize": "1 kB"
     }
-  ],
-  "dependencies": {
-    "deep-diff": "^0.3.8"
-  }
+  ]
 }
