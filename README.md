@@ -59,7 +59,7 @@ if (decreased('ratio', true)) {
 **changed(key: string)**  
 Check if the value has changed. Supports objects and arrays.
 
-**changedFrom(key: string, previous: string | boolean | number, actual: string | boolean | number)**
+**changedFrom(key: string, previous: string | boolean | number, actual: string | boolean | number)**  
 Check if the value has changed from `previous` to `actual`. 
 
 **changedFrom(key: string, actual: string | boolean | number)**  
