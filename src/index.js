@@ -7,7 +7,7 @@ function isPlainObj(...args: any): boolean {
   return args.every(d => {
     const prototype = Object.getPrototypeOf(d);
 
-    return toString.call(d)
+    return Object.prototype.toString.call(d)
       .slice(8, -1) === 'Object' && (prototype === null || prototype === Object.getPrototypeOf({}));
   });
 }
