@@ -24,7 +24,8 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "deep-diff": "^0.3.8"
+    "deep-diff": "^0.3.8",
+    "nested-property": "0.0.7"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",

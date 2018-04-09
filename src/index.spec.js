@@ -2,22 +2,28 @@ import treeChanges from './index';
 
 describe('tree-changes', () => {
   const A = {
-    status: 'idle',
-    hasData: false,
     data: { a: 1 },
+    hasData: false,
     items: [{ name: 'test' }],
+    nested: {
+      status: 'running',
+    },
     ratio: 0.45,
     retries: 0,
+    status: 'idle',
     switch: false,
   };
 
   const B = {
-    status: 'done',
-    hasData: true,
     data: { a: 1 },
+    hasData: true,
     items: [],
+    nested: {
+      status: 'loaded',
+    },
     ratio: 0.4,
     retries: 1,
+    status: 'done',
   };
 
   const { changed, changedFrom, changedTo, increased, decreased } = treeChanges(A, B);
@@ -31,6 +37,8 @@ describe('tree-changes', () => {
     expect(changed('hasData')).toBe(true);
     expect(changed('data')).toBe(false);
     expect(changed('items')).toBe(true);
+    expect(changed('nested')).toBe(true);
+    expect(changed('nested.status')).toBe(true);
     expect(changed('switch')).toBe(true);
   });
 
@@ -46,6 +54,8 @@ describe('tree-changes', () => {
     expect(changedFrom('data', { a: 1 }, {})).toBe(false);
     expect(changedFrom('data', { a: 1 }, true)).toBe(false);
     expect(changedFrom('data', 'a', { a: 1 })).toBe(false);
+
+    expect(changedFrom('nested.status', 'running', 'loaded')).toBe(true);
 
     expect(changedFrom('switch', false, undefined)).toBe(true);
     expect(changedFrom('switch', false, null)).toBe(false);
@@ -65,6 +75,9 @@ describe('tree-changes', () => {
     expect(changedTo('data', '')).toBe(false);
 
     expect(changedTo('items', [])).toBe(false);
+
+    expect(changedTo('nested.status', 'running')).toBe(false);
+    expect(changedTo('nested.status', 'loaded')).toBe(true);
 
     expect(changedTo('retries', 1)).toBe(true);
   });

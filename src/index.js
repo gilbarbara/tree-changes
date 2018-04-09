@@ -1,5 +1,6 @@
 // @flow
 import deep from 'deep-diff';
+import nested from 'nested-property';
 
 type TypeInput = string | boolean | number;
 
@@ -23,25 +24,25 @@ function isNumber(...args: any): boolean {
 export default function treeChanges(data: Object, nextData: Object): Object {
   return {
     changed(key: string): boolean {
-      if ((isArray(data[key], nextData[key])) || (isPlainObj(data[key], nextData[key]))) {
-        const diff = deep.diff(data[key], nextData[key]);
+      if ((isArray(nested.get(data, key), nested.get(nextData, key))) || (isPlainObj(nested.get(data, key), nested.get(nextData, key)))) {
+        const diff = deep.diff(nested.get(data, key), nested.get(nextData, key));
 
         return !!diff;
       }
 
-      return data[key] !== nextData[key];
+      return nested.get(data, key) !== nested.get(nextData, key);
     },
     changedFrom(key: string, previous: TypeInput, actual: TypeInput): boolean {
-      return data[key] === previous && nextData[key] === actual;
+      return nested.get(data, key) === previous && nested.get(nextData, key) === actual;
     },
     changedTo(key: string, actual: TypeInput): boolean {
-      return data[key] !== actual && nextData[key] === actual;
+      return nested.get(data, key) !== actual && nested.get(nextData, key) === actual;
     },
     increased(key: string): boolean {
-      return isNumber(data[key], nextData[key]) && data[key] < nextData[key];
+      return isNumber(nested.get(data, key), nested.get(nextData, key)) && nested.get(data, key) < nested.get(nextData, key);
     },
     decreased(key: string): boolean {
-      return isNumber(data[key], nextData[key]) && data[key] > nextData[key];
+      return isNumber(nested.get(data, key), nested.get(nextData, key)) && nested.get(data, key) > nested.get(nextData, key);
     },
   };
 }
