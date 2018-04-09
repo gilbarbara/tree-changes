@@ -54,24 +54,6 @@ if (decreased('ratio', true)) {
 }
 ```
 
-### API
-
-**changed(key: string)**  
-Check if the value has changed. Supports objects and arrays.
-
-**changedFrom(key: string, previous: string | boolean | number, actual: string | boolean | number)**  
-Check if the value has changed from `previous` to `actual`. 
-
-**changedFrom(key: string, actual: string | boolean | number)**  
-Check if the value has changed to `actual`. 
-
-**increased(key: string)**  
-Check if both versions are numbers and the value has increased. 
-
-**decreased(key: string)**  
-Check if both versions are numbers and the value has decreased. 
-
-
 ### With React
 
 ```js
@@ -79,8 +61,8 @@ import treeChanges from 'tree-changes';
 
 class Comp extends React.Component {
     ...
-    componentWillReceiveProps(nextProps) {
-        const { changedFrom, changedTo } = treeChanges(this.props, nextProps);
+    componentDidUpdate(prevProps) {
+        const { changedFrom, changedTo } = treeChanges(prevProps, this.props);
         
         if (changedFrom('retries', 0, 1) {
             // dispatch some error
@@ -93,5 +75,23 @@ class Comp extends React.Component {
     ...
 }
 ```
+
+### API
+
+**changed(key: string)**  
+Check if the value has changed. Supports objects and arrays.
+
+**changedFrom(key: string, previous: string | boolean | number, actual: string | boolean | number)**  
+Check if the value has changed from `previous` to `actual`. 
+
+**changedTo(key: string, actual: string | boolean | number)**  
+Check if the value has changed to `actual`. 
+
+**increased(key: string)**  
+Check if both versions are numbers and the value has increased. 
+
+**decreased(key: string)**  
+Check if both versions are numbers and the value has decreased. 
+
 
 
