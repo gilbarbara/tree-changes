@@ -32,8 +32,10 @@ export default function treeChanges(data: Object, nextData: Object): Object {
 
       return nested.get(data, key) !== nested.get(nextData, key);
     },
-    changedFrom(key: string, previous: TypeInput, actual: TypeInput): boolean {
-      return nested.get(data, key) === previous && nested.get(nextData, key) === actual;
+    changedFrom(key: string, previous: TypeInput, actual?: TypeInput): boolean {
+      const useActual = typeof previous !== 'undefined' && typeof actual !== 'undefined';
+
+      return nested.get(data, key) === previous && (useActual ? nested.get(nextData, key) === actual : !useActual);
     },
     changedTo(key: string, actual: TypeInput): boolean {
       return nested.get(data, key) !== actual && nested.get(nextData, key) === actual;

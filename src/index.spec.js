@@ -44,22 +44,24 @@ describe('tree-changes', () => {
 
   it('should identify changedFrom', () => {
     expect(changedFrom('status')).toBe(false);
-
+    expect(changedFrom('status', 'idle')).toBe(true);
     expect(changedFrom('status', 'idle', 'done')).toBe(true);
     expect(changedFrom('status', 'ready', 'done')).toBe(false);
+    expect(changedFrom('status', 'idle', 'ready')).toBe(false);
 
-    expect(changedFrom('hasData', true, false)).toBe(false);
+    expect(changedFrom('hasData', false)).toBe(true);
     expect(changedFrom('hasData', false, true)).toBe(true);
+    expect(changedFrom('hasData', true, false)).toBe(false);
 
     expect(changedFrom('data', { a: 1 }, {})).toBe(false);
     expect(changedFrom('data', { a: 1 }, true)).toBe(false);
     expect(changedFrom('data', 'a', { a: 1 })).toBe(false);
 
+    expect(changedFrom('nested.status', 'running')).toBe(true);
     expect(changedFrom('nested.status', 'running', 'loaded')).toBe(true);
 
     expect(changedFrom('switch', false, undefined)).toBe(true);
-    expect(changedFrom('switch', false, null)).toBe(false);
-    expect(changedFrom('switch', true, undefined)).toBe(false);
+    expect(changedFrom('switch', false)).toBe(true);
   });
 
   it('should identify changedTo', () => {
