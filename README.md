@@ -46,10 +46,15 @@ if (changed('status')) {
 }
 
 if (changedFrom('retries', 0, 1) {
-    // do something else
+    // should we try again?
 }
 
-if (decreased('ratio', true)) {
+// works with array values too
+if (changedFrom('status', 'idle', ['done', 'ready']) {
+    // status has changed!
+}
+
+if (decreased('ratio')) {
     // hey, slow down.
 }
 ```

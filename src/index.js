@@ -2,7 +2,7 @@
 import deep from 'deep-diff';
 import nested from 'nested-property';
 
-type TypeInput = string | boolean | number;
+type TypeInput = string | boolean | number | Array<string | boolean | number>;
 
 function isPlainObj(...args: any): boolean {
   return args.every(d => {
@@ -32,13 +32,22 @@ export default function treeChanges(data: Object, nextData: Object): Object {
 
       return nested.get(data, key) !== nested.get(nextData, key);
     },
-    changedFrom(key: string, previous: TypeInput, actual?: TypeInput): boolean {
+    changedFrom(key: string, previous: TypeInput, actual: TypeInput): boolean {
       const useActual = typeof previous !== 'undefined' && typeof actual !== 'undefined';
+      const left = nested.get(data, key);
+      const right = nested.get(nextData, key);
+      const leftComparator = Array.isArray(previous) ? previous.includes(left) : left === previous;
+      const rightComparator = Array.isArray(actual) ? actual.includes(right) : right === actual;
 
-      return nested.get(data, key) === previous && (useActual ? nested.get(nextData, key) === actual : !useActual);
+      return leftComparator && (useActual ? rightComparator : !useActual);
     },
     changedTo(key: string, actual: TypeInput): boolean {
-      return nested.get(data, key) !== actual && nested.get(nextData, key) === actual;
+      const left = nested.get(data, key);
+      const right = nested.get(nextData, key);
+      const leftComparator = Array.isArray(actual) ? !actual.includes(left) : left !== actual;
+      const rightComparator = Array.isArray(actual) ? actual.includes(right) : right === actual;
+
+      return leftComparator && rightComparator;
     },
     increased(key: string): boolean {
       return isNumber(nested.get(data, key), nested.get(nextData, key)) && nested.get(data, key) < nested.get(nextData, key);

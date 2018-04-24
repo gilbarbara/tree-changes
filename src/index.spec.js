@@ -46,8 +46,8 @@ describe('tree-changes', () => {
     expect(changedFrom('status')).toBe(false);
     expect(changedFrom('status', 'idle')).toBe(true);
     expect(changedFrom('status', 'idle', 'done')).toBe(true);
-    expect(changedFrom('status', 'ready', 'done')).toBe(false);
-    expect(changedFrom('status', 'idle', 'ready')).toBe(false);
+    expect(changedFrom('status', ['ready', 'running'], 'done')).toBe(false);
+    expect(changedFrom('status', 'idle', ['error', 'ready'])).toBe(false);
 
     expect(changedFrom('hasData', false)).toBe(true);
     expect(changedFrom('hasData', false, true)).toBe(true);
@@ -68,15 +68,13 @@ describe('tree-changes', () => {
     expect(changedTo('status')).toBe(false);
 
     expect(changedTo('status', 'idle')).toBe(false);
-    expect(changedTo('status', 'done')).toBe(true);
+    expect(changedTo('status', ['ready', 'done'])).toBe(true);
 
     expect(changedTo('hasData', false)).toBe(false);
     expect(changedTo('hasData', true)).toBe(true);
 
     expect(changedTo('data', { a: 1 })).toBe(false);
     expect(changedTo('data', '')).toBe(false);
-
-    expect(changedTo('items', [])).toBe(false);
 
     expect(changedTo('nested.status', 'running')).toBe(false);
     expect(changedTo('nested.status', 'loaded')).toBe(true);
