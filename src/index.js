@@ -6,6 +6,7 @@ type TypeInput = string | boolean | number | Array<string | boolean | number>;
 
 function isPlainObj(...args: any): boolean {
   return args.every(d => {
+    if (!d) return false;
     const prototype = Object.getPrototypeOf(d);
 
     return Object.prototype.toString.call(d)
@@ -24,13 +25,16 @@ function isNumber(...args: any): boolean {
 export default function treeChanges(data: Object, nextData: Object): Object {
   return {
     changed(key: string): boolean {
-      if ((isArray(nested.get(data, key), nested.get(nextData, key))) || (isPlainObj(nested.get(data, key), nested.get(nextData, key)))) {
-        const diff = deep.diff(nested.get(data, key), nested.get(nextData, key));
+      const left = nested.get(data, key);
+      const right = nested.get(nextData, key);
+
+      if ((isArray(left, right)) || (isPlainObj(left, right))) {
+        const diff = deep.diff(left, right);
 
         return !!diff;
       }
 
-      return nested.get(data, key) !== nested.get(nextData, key);
+      return left !== right;
     },
     changedFrom(key: string, previous: TypeInput, actual: TypeInput): boolean {
       const useActual = typeof previous !== 'undefined' && typeof actual !== 'undefined';

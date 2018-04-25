@@ -39,6 +39,7 @@ describe('tree-changes', () => {
     expect(changed('items')).toBe(true);
     expect(changed('nested')).toBe(true);
     expect(changed('nested.status')).toBe(true);
+    expect(changed('nested.missing')).toBe(false);
     expect(changed('switch')).toBe(true);
   });
 
