@@ -1,6 +1,6 @@
 {
   "name": "tree-changes",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "Helpers function to get tree changes between two datasets",
   "author": "Gil Barbara <gilbarbara@gmail.com>",
   "repository": {
