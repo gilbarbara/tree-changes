@@ -36,5 +36,5 @@ exclude_patterns:
   - es/**/*
   - lib/**/*
   - node_modules/**/*
-	- src/**/*.spec.js
+  - src/**/*.spec.js
   - test/**/*
