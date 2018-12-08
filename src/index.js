@@ -22,7 +22,11 @@ function isNumber(...args: any): boolean {
   return args.every(d => typeof d === 'number');
 }
 
-export default function treeChanges(data: Object, nextData: Object): Object {
+export default function treeChanges(data: Object | Array<*>, nextData: Object | Array<*>): Object {
+  if (!data || !nextData) {
+    throw new Error('Missing required parameters');
+  }
+
   return {
     changed(key: string): boolean {
       const left = nested.get(data, key);
@@ -37,6 +41,10 @@ export default function treeChanges(data: Object, nextData: Object): Object {
       return left !== right;
     },
     changedFrom(key: string, previous: TypeInput, actual: TypeInput): boolean {
+      if (!key) {
+        throw new Error('Key parameter is required');
+      }
+
       const useActual = typeof previous !== 'undefined' && typeof actual !== 'undefined';
       const left = nested.get(data, key);
       const right = nested.get(nextData, key);
@@ -46,6 +54,10 @@ export default function treeChanges(data: Object, nextData: Object): Object {
       return leftComparator && (useActual ? rightComparator : !useActual);
     },
     changedTo(key: string, actual: TypeInput): boolean {
+      if (!key) {
+        throw new Error('Key parameter is required');
+      }
+
       const left = nested.get(data, key);
       const right = nested.get(nextData, key);
       const leftComparator = Array.isArray(actual) ? !actual.includes(left) : left !== actual;
@@ -54,9 +66,17 @@ export default function treeChanges(data: Object, nextData: Object): Object {
       return leftComparator && rightComparator;
     },
     increased(key: string): boolean {
+      if (!key) {
+        throw new Error('Key parameter is required');
+      }
+
       return isNumber(nested.get(data, key), nested.get(nextData, key)) && nested.get(data, key) < nested.get(nextData, key);
     },
     decreased(key: string): boolean {
+      if (!key) {
+        throw new Error('Key parameter is required');
+      }
+
       return isNumber(nested.get(data, key), nested.get(nextData, key)) && nested.get(data, key) > nested.get(nextData, key);
     },
   };
