@@ -34,7 +34,9 @@ describe('tree-changes', () => {
     });
 
     it('should throw an error without parameters', () => {
+      // @ts-ignore
       expect(() => treeChanges()).toThrowError('Missing required parameters');
+      // @ts-ignore
       expect(() => treeChanges(A)).toThrowError('Missing required parameters');
     });
 
@@ -74,10 +76,12 @@ describe('tree-changes', () => {
     const { changedFrom } = treeChanges(A, B);
 
     it('should throw an error without `key` parameter', () => {
+      // @ts-ignore
       expect(() => changedFrom()).toThrowError('Key parameter is required');
     });
 
     it('should identify changes', () => {
+      // @ts-ignore
       expect(changedFrom('status')).toBe(false);
       expect(changedFrom('status', 'idle')).toBe(true);
       expect(changedFrom('status', 'idle', 'done')).toBe(true);
@@ -104,10 +108,12 @@ describe('tree-changes', () => {
     const { changedTo } = treeChanges(A, B);
 
     it('should throw an error without `key` parameter', () => {
+      // @ts-ignore
       expect(() => changedTo()).toThrowError('Key parameter is required');
     });
 
     it('should identify changes', () => {
+      // @ts-ignore
       expect(changedTo('status')).toBe(false);
 
       expect(changedTo('status', 'idle')).toBe(false);
@@ -130,6 +136,7 @@ describe('tree-changes', () => {
     const { increased } = treeChanges(A, B);
 
     it('should throw an error without `key` parameter', () => {
+      // @ts-ignore
       expect(() => increased()).toThrowError('Key parameter is required');
     });
 
@@ -146,6 +153,7 @@ describe('tree-changes', () => {
     const { decreased } = treeChanges(A, B);
 
     it('should throw an error without `key` parameter', () => {
+      // @ts-ignore
       expect(() => decreased()).toThrowError('Key parameter is required');
     });
 
