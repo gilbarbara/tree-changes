@@ -1,12 +1,28 @@
-// @flow
 import deep from 'deep-diff';
+// @ts-ignore
 import nested from 'nested-property';
 
-type TypeInput = string | boolean | number | Array<string | boolean | number>;
+interface IObject {
+  [key: string]: any;
+}
+
+export type TypeInput = string | boolean | number | string[] | boolean[] | number[] | IObject;
+
+export type IData = IObject | IObject[];
+
+export interface ITreeChanges {
+  changed: (key?: string) => boolean;
+  changedFrom: (key: string, previous: TypeInput, actual?: TypeInput) => boolean;
+  changedTo: (key: string, actual: TypeInput) => boolean;
+  increased: (key: string) => boolean;
+  decreased: (key: string) => boolean;
+}
 
 function isPlainObj(...args: any): boolean {
-  return args.every(d => {
-    if (!d) return false;
+  return args.every((d:any) => {
+    if (!d) {
+      return false;
+    }
     const prototype = Object.getPrototypeOf(d);
 
     return Object.prototype.toString.call(d)
@@ -15,20 +31,20 @@ function isPlainObj(...args: any): boolean {
 }
 
 function isArray(...args: any): boolean {
-  return args.every(d => Array.isArray(d));
+  return args.every((d: any) => Array.isArray(d));
 }
 
 function isNumber(...args: any): boolean {
-  return args.every(d => typeof d === 'number');
+  return args.every((d: any) => typeof d === 'number');
 }
 
-export default function treeChanges(data: Object | Array<*>, nextData: Object | Array<*>): Object {
+export default function treeChanges(data: IData, nextData: IData): ITreeChanges {
   if (!data || !nextData) {
     throw new Error('Missing required parameters');
   }
 
   return {
-    changed(key: string): boolean {
+    changed(key?: string): boolean {
       const left = nested.get(data, key);
       const right = nested.get(nextData, key);
 
@@ -40,7 +56,7 @@ export default function treeChanges(data: Object | Array<*>, nextData: Object | 
 
       return left !== right;
     },
-    changedFrom(key: string, previous: TypeInput, actual: TypeInput): boolean {
+    changedFrom(key: string, previous: TypeInput, actual?: TypeInput): boolean {
       if (!key) {
         throw new Error('Key parameter is required');
       }
@@ -48,8 +64,8 @@ export default function treeChanges(data: Object | Array<*>, nextData: Object | 
       const useActual = typeof previous !== 'undefined' && typeof actual !== 'undefined';
       const left = nested.get(data, key);
       const right = nested.get(nextData, key);
-      const leftComparator = Array.isArray(previous) ? previous.includes(left) : left === previous;
-      const rightComparator = Array.isArray(actual) ? actual.includes(right) : right === actual;
+      const leftComparator = Array.isArray(previous) ? previous.indexOf(left as never) >= 0 : left === previous;
+      const rightComparator = Array.isArray(actual) ? actual.indexOf(right as never) >= 0 : right === actual;
 
       return leftComparator && (useActual ? rightComparator : !useActual);
     },
@@ -60,8 +76,8 @@ export default function treeChanges(data: Object | Array<*>, nextData: Object | 
 
       const left = nested.get(data, key);
       const right = nested.get(nextData, key);
-      const leftComparator = Array.isArray(actual) ? !actual.includes(left) : left !== actual;
-      const rightComparator = Array.isArray(actual) ? actual.includes(right) : right === actual;
+      const leftComparator = Array.isArray(actual) ? actual.indexOf(left as never) < 0 : left !== actual;
+      const rightComparator = Array.isArray(actual) ? actual.indexOf(right as never) >= 0 : right === actual;
 
       return leftComparator && rightComparator;
     },
