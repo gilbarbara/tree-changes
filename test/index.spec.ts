@@ -1,4 +1,4 @@
-import treeChanges from './index';
+import treeChanges from '../src';
 
 describe('tree-changes', () => {
   const A = {

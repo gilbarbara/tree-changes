@@ -35,4 +35,4 @@ exclude_patterns:
   - coverage/**/*
   - lib/**/*
   - node_modules/**/*
-  - src/**/*.spec.*
+  - test/**/*
