@@ -27,15 +27,19 @@
     "nested-property": "1.0.1"
   },
   "devDependencies": {
+    "@gilbarbara/tsconfig": "^0.1.0",
+    "@size-limit/preset-small-lib": "^2.1.0",
     "@types/deep-diff": "^1.0.0",
-    "@types/jest": "^24.0.15",
-    "@types/node": "^12.6.3",
-    "bundlesize": "^0.18.0",
+    "@types/jest": "^24.0.17",
+    "@types/node": "^12.7.2",
     "chalk": "^2.4.2",
     "cross-env": "^5.2.0",
-    "husky": "^3.0.0",
-    "jest": "^24.8.0",
-    "rimraf": "^2.6.3",
+    "husky": "^3.0.4",
+    "jest": "^24.9.0",
+    "prettier": "^1.18.2",
+    "repo-tools": "^0.2.0",
+    "rimraf": "^3.0.0",
+    "size-limit": "^2.1.0",
     "ts-jest": "^24.0.2",
     "tslint": "^5.18.0",
     "tslint-config-prettier": "^1.18.0",
@@ -48,21 +52,31 @@
     "watch": "npm run build:js -- -w",
     "clean": "rimraf lib",
     "lint": "tslint -p tsconfig.json",
-    "test": "jest --coverage",
+    "test": "jest",
+    "test:coverage": "jest --coverage",
     "test:watch": "jest --watch --verbose",
-    "bundlesize": "bundlesize",
-    "validate": "npm run lint && npm test && npm run build && bundlesize",
+    "format": "prettier \"**/*.{js,jsx,json,yml,yaml,css,less,scss,ts,tsx,md,graphql,mdx}\" --write",
+    "validate": "npm run lint && npm run test:coverage && npm run size",
+    "size": "npm run build && size-limit",
     "prepublishOnly": "npm run validate"
   },
-  "bundlesize": [
+  "prettier": {
+    "trailingComma": "all",
+    "singleQuote": true,
+    "arrowParens": "avoid",
+    "printWidth": 100,
+    "proseWrap": "never"
+  },
+  "size-limit": [
     {
       "path": "./lib/index.js",
-      "maxSize": "1 kB"
+      "limit": "3 kB"
     }
   ],
   "husky": {
     "hooks": {
-      "pre-commit": "npm run validate"
+      "pre-commit": "repo-tools check-remote && npm run validate",
+      "post-merge": "repo-tools install-packages"
     }
   }
 }
