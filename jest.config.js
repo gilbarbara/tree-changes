@@ -1,7 +1,7 @@
 module.exports = {
   collectCoverage: false,
   collectCoverageFrom: [
-    'src/**/*.(j|t)s',
+    'src/**/*.ts',
   ],
   coverageThreshold: {
     global: {
@@ -22,5 +22,5 @@ module.exports = {
     './',
   ],
   preset: 'ts-jest',
-  testRegex: '/.*?\\.(test|spec)\\.*(j|t)s$',
+  testRegex: 'test/.*?\\.(test|spec)\\.ts$',
 };
