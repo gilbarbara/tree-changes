@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`useTreeChanges with state 1`] = `
+<div
+  data-testid="app"
+>
+  <header>
+    <h1>
+      tree-changes
+    </h1>
+    <button>
+      Clicked 
+      0
+       times
+    </button>
+    <p>
+      loading...
+    </p>
+  </header>
+</div>
+`;
+
+exports[`useTreeChanges with state 2`] = `
+<div
+  data-testid="app"
+>
+  <header>
+    <h1>
+      tree-changes
+    </h1>
+    <button>
+      Clicked 
+      0
+       times
+    </button>
+    <p>
+      side-effect is complete
+    </p>
+  </header>
+</div>
+`;

@@ -228,58 +228,45 @@ removed('switch'); // true
 
 ## With React
 
+### Functional components with hooks
+
+```typescript jsx
+import React from 'react';
+import useTreeChanges from 'tree-changes/lib/hook';
+
+function App(props) {
+  const { changed } = useTreeChanges(props);
+
+  React.useEffect(() => {
+    if (changed('hasData', true)) {
+    	sendAnalyticsEvent('load', 'MySuperPage');
+  	}
+  });
+
+  return <div>...</div>;
+}
+```
+
+> It's safe to run all the methods with a `useEffect` without dependencies but it works with them too.
+
 ### Class components
 
 ```typescript jsx
 import treeChanges from 'tree-changes';
 
 class App extends React.Component {
-    ...
-    componentDidUpdate(prevProps) {
-        const { changed, changedFrom } = treeChanges(prevProps, this.props);
+  componentDidUpdate(prevProps) {
+    const { changed, increased } = treeChanges(prevProps, this.props);
 
-        if (changedFrom('retries', 0, 1)) {
-            // dispatch some error
-        }
-
-        if (changed('hasData', true)) {
-            // send data to analytics or something.
-        }
+    if (increased('retries')) {
+      // dispatch some error
     }
-    ...
-}
-```
 
-### Functional components with hooks
-
-```typescript jsx
-import React, { useEffect, useRef } from 'react';
-import treeChanges from 'tree-changes';
-
-function usePrevious(value) {
-  const ref = useRef();
-
-  useEffect(() => {
-    ref.current = value;
-  });
-
-  return ref.current;
-}
-
-function useTreeChanges(props) {
-  const prevProps = usePrevious(props) || {};
-
-  return treeChanges(prevProps, props);
-}
-
-function App(props) {
-  const { changed } = useTreeChanges(props);
-
-  if (changed('isLoaded', true)) {
-    sendAnalyticsEvent('load', 'MySuperPage');
+    if (changed('hasData', true)) {
+      // send data to analytics or something.
+    }
   }
-
-  return <div>...</div>;
+	...
 }
 ```
 
