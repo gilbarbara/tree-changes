@@ -25,6 +25,9 @@
   ],
   "types": "lib",
   "sideEffects": false,
+  "optionalDependencies": {
+    "react": "^16.8.0 || ^17.0.0"
+  },
   "dependencies": {
     "fast-deep-equal": "^3.1.3",
     "is-lite": "^0.8.0"
@@ -89,6 +92,14 @@
     {
       "path": "./esm/index.js",
       "limit": "2.5 kB"
+    },
+    {
+      "path": "./lib/hook.js",
+      "limit": "6 kB"
+    },
+    {
+      "path": "./esm/hook.js",
+      "limit": "6 kB"
     }
   ],
   "husky": {
