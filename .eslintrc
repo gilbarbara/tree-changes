@@ -1,0 +1,51 @@
+{
+  "extends": [
+    "airbnb-base",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:import/typescript",
+    "plugin:prettier/recommended",
+    "prettier/standard"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "env": {
+    "browser": true,
+    "jest": true
+  },
+  "overrides": [
+    {
+      "files": ["test/**/*.ts?(x)"],
+      "rules": {
+        "no-console": "off",
+        "@typescript-eslint/ban-ts-comment": "off"
+      }
+    }
+  ],
+  "plugins": ["@typescript-eslint/eslint-plugin", "prettier"],
+  "rules": {
+    "no-restricted-syntax": ["error", "DebuggerStatement", "LabeledStatement", "WithStatement"],
+    "no-use-before-define": "off",
+    "spaced-comment": [
+      "warn",
+      "always",
+      {
+        "exceptions": ["-+"],
+        "markers": [
+          "eslint-disable",
+          "eslint-disable-line",
+          "eslint-disable-next-line",
+          "eslint-enable"
+        ]
+      }
+    ],
+    "@typescript-eslint/ban-ts-ignore": "off",
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-unused-vars": ["warn", { "ignoreRestSiblings": true }],
+    "@typescript-eslint/no-use-before-define": ["error", { "functions": false }],
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/no-non-null-assertion": "off",
+    "import/extensions": ["warn", "never"],
+    "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
+    "import/prefer-default-export": "off"
+  }
+}
