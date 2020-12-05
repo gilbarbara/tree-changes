@@ -1,113 +1,206 @@
-import { diff } from 'deep-diff';
-// @ts-ignore
-import { get as nested } from 'nested-property';
+import * as equal from 'fast-deep-equal';
+import is from 'is-lite';
+import {
+  hasExtraKeys,
+  compareNumbers,
+  compareValues,
+  getIterables,
+  includesOrEqualsTo,
+  nested,
+} from './helpers';
 
-interface IPlainObject {
-  [key: string]: any;
-}
+import { Data, KeyType, TreeChanges, Value } from './types';
 
-export type TypeInput =
-  | string
-  | boolean
-  | number
-  | IPlainObject
-  | Array<string | boolean | number | IPlainObject>;
-
-export type IData = IPlainObject | IPlainObject[];
-
-export interface ITreeChanges {
-  changed: (key?: string | number) => boolean;
-  changedFrom: (key: string | number, previous: TypeInput, actual?: TypeInput) => boolean;
-  changedTo: (key: string | number, actual: TypeInput) => boolean;
-  increased: (key: string | number) => boolean;
-  decreased: (key: string | number) => boolean;
-}
-
-function isPlainObj(...args: any): boolean {
-  return args.every((d: any) => {
-    if (!d) {
-      return false;
-    }
-    const prototype = Object.getPrototypeOf(d);
-
-    return (
-      Object.prototype.toString.call(d).slice(8, -1) === 'Object' &&
-      (prototype === null || prototype === Object.getPrototypeOf({}))
-    );
-  });
-}
-
-function isArray(...args: any): boolean {
-  return args.every(Array.isArray);
-}
-
-function isNumber(...args: any): boolean {
-  return args.every((d: any) => typeof d === 'number');
-}
-
-export default function treeChanges(data: IData, nextData: IData): ITreeChanges {
-  if (!data || !nextData) {
+export default function treeChanges<P extends Data, D extends Data, K = KeyType<P, D>>(
+  previousData: P,
+  data: D,
+): TreeChanges<K> {
+  if ([previousData, data].some(is.nullOrUndefined)) {
     throw new Error('Missing required parameters');
   }
 
-  return {
-    changed(key?: string | number): boolean {
-      const left = nested(data, key);
-      const right = nested(nextData, key);
+  if (![previousData, data].every(d => is.plainObject(d) || is.array(d))) {
+    throw new Error('Expected plain objects or array');
+  }
 
-      if (isArray(left, right) || isPlainObj(left, right)) {
-        return !!diff(left, right);
+  const added = (key?: K, value?: Value): boolean => {
+    try {
+      const left = nested(previousData, key);
+      const right = nested(data, key);
+
+      if (!is.nullOrUndefined(value)) {
+        if (is.defined(left)) {
+          // check if nested data matches
+          if (is.array(right) || is.plainObject(right)) {
+            return compareValues(left, right, value);
+          }
+        } else {
+          return equal(right, value);
+        }
+
+        return false;
+      }
+
+      if ([left, right].every(is.array)) {
+        return !right.every((d: any) => left.indexOf(d) >= 0);
+      }
+
+      if ([left, right].every(is.plainObject)) {
+        return hasExtraKeys(Object.keys(left), Object.keys(right));
+      }
+
+      return (
+        ![left, right].every(d => is.primitive(d) && is.defined(d)) &&
+        !is.defined(left) &&
+        is.defined(right)
+      );
+    } catch {
+      return false;
+    }
+  };
+
+  const changed = (key?: K | string, actual?: Value, previous?: Value): boolean => {
+    try {
+      const left = nested(previousData, key);
+      const right = nested(data, key);
+      const hasActual = is.defined(actual);
+      const hasPrevious = is.defined(previous);
+
+      if (hasActual || hasPrevious) {
+        const leftComparator = hasPrevious
+          ? includesOrEqualsTo(previous, left)
+          : !includesOrEqualsTo(actual, left);
+        const rightComparator = includesOrEqualsTo(actual, right);
+
+        return leftComparator && rightComparator;
+      }
+
+      if ([left, right].every(is.array) || [left, right].every(is.plainObject)) {
+        return !equal(left, right);
       }
 
       return left !== right;
-    },
-    changedFrom(key: string | number, previous: TypeInput, actual?: TypeInput): boolean {
-      if (typeof key === 'undefined') {
-        throw new Error('Key parameter is required');
-      }
-
-      const useActual = typeof previous !== 'undefined' && typeof actual !== 'undefined';
-      const left = nested(data, key);
-      const right = nested(nextData, key);
-      const leftComparator = Array.isArray(previous)
-        ? previous.indexOf(left) >= 0
-        : left === previous;
-      const rightComparator = Array.isArray(actual) ? actual.indexOf(right) >= 0 : right === actual;
-
-      return leftComparator && (useActual ? rightComparator : !useActual);
-    },
-    changedTo(key: string | number, actual: TypeInput): boolean {
-      if (typeof key === 'undefined') {
-        throw new Error('Key parameter is required');
-      }
-
-      const left = nested(data, key);
-      const right = nested(nextData, key);
-
-      const leftComparator = Array.isArray(actual) ? actual.indexOf(left) < 0 : left !== actual;
-      const rightComparator = Array.isArray(actual) ? actual.indexOf(right) >= 0 : right === actual;
-
-      return leftComparator && rightComparator;
-    },
-    increased(key: string | number): boolean {
-      if (typeof key === 'undefined') {
-        throw new Error('Key parameter is required');
-      }
-
-      return (
-        isNumber(nested(data, key), nested(nextData, key)) &&
-        nested(data, key) < nested(nextData, key)
-      );
-    },
-    decreased(key: string | number): boolean {
-      if (typeof key === 'undefined') {
-        throw new Error('Key parameter is required');
-      }
-
-      return (
-        isNumber(nested(data, key), nested(nextData, key)) &&
-        nested(data, key) > nested(nextData, key)
-      );
-    },
+    } catch (error) {
+      return false;
+    }
   };
+
+  const changedFrom = (key: K | string, previous: Value, actual?: Value): boolean => {
+    if (!is.defined(key)) {
+      return false;
+    }
+
+    try {
+      const left = nested(previousData, key);
+      const right = nested(data, key);
+      const hasActual = is.defined(actual);
+
+      return (
+        includesOrEqualsTo(previous, left) &&
+        (hasActual ? includesOrEqualsTo(actual, right) : !hasActual)
+      );
+    } catch {
+      return false;
+    }
+  };
+
+  /**
+   * @deprecated
+   * Use "changed" instead
+   */
+  const changedTo = (key: K | string, actual: Value): boolean => {
+    if (!is.defined(key)) {
+      return false;
+    }
+
+    /* istanbul ignore next */
+    if (process.env.NODE_ENV === 'development') {
+      // eslint-disable-next-line no-console
+      console.warn('`changedTo` is deprecated! Replace it with `change`');
+    }
+
+    return changed(key, actual);
+  };
+
+  const decreased = (key: K, actual?: Value, previous?: Value): boolean => {
+    if (!is.defined(key)) {
+      return false;
+    }
+
+    try {
+      return compareNumbers(previousData, data, { key, actual, previous, type: 'decreased' });
+    } catch {
+      return false;
+    }
+  };
+
+  const emptied = (key?: K): boolean => {
+    try {
+      const [left, right] = getIterables(previousData, data, { key });
+      return !!left.length && !right.length;
+    } catch {
+      return false;
+    }
+  };
+
+  const filled = (key?: K): boolean => {
+    try {
+      const [left, right] = getIterables(previousData, data, { key });
+
+      return !left.length && !!right.length;
+    } catch {
+      return false;
+    }
+  };
+
+  const increased = (key: K, actual?: Value, previous?: Value): boolean => {
+    if (!is.defined(key)) {
+      return false;
+    }
+
+    try {
+      return compareNumbers(previousData, data, { key, actual, previous, type: 'increased' });
+    } catch {
+      return false;
+    }
+  };
+
+  const removed = (key?: K, value?: Value): boolean => {
+    try {
+      const left = nested(previousData, key);
+      const right = nested(data, key);
+
+      if (!is.nullOrUndefined(value)) {
+        if (is.defined(right)) {
+          // check if nested data matches
+          /* istanbul ignore else */
+          if (is.array(left) || is.plainObject(left)) {
+            return compareValues(right, left, value);
+          }
+        } else {
+          return equal(left, value);
+        }
+
+        return false;
+      }
+
+      if ([left, right].every(is.array)) {
+        return !right.every((d: any) => left.indexOf(d) >= 0);
+      }
+
+      if ([left, right].every(is.plainObject)) {
+        return hasExtraKeys(Object.keys(right), Object.keys(left));
+      }
+
+      return (
+        ![left, right].every(d => is.primitive(d) && is.defined(d)) &&
+        is.defined(left) &&
+        !is.defined(right)
+      );
+    } catch {
+      return false;
+    }
+  };
+
+  return { added, changed, changedFrom, changedTo, decreased, emptied, filled, increased, removed };
 }
