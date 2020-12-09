@@ -24,7 +24,7 @@
   "license": "MIT",
   "dependencies": {
     "deep-diff": "^1.0.2",
-    "nested-property": "1.0.1"
+    "nested-property": "1.0.4"
   },
   "devDependencies": {
     "@gilbarbara/tsconfig": "^0.1.0",
