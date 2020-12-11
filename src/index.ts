@@ -20,6 +20,7 @@ export default function treeChanges<P extends Data, D extends Data, K = KeyType<
     try {
       return compareValues<K>(previousData, data, { key, type: 'added', value });
     } catch {
+      /* istanbul ignore next */
       return false;
     }
   };
@@ -46,6 +47,7 @@ export default function treeChanges<P extends Data, D extends Data, K = KeyType<
 
       return left !== right;
     } catch {
+      /* istanbul ignore next */
       return false;
     }
   };
@@ -65,6 +67,7 @@ export default function treeChanges<P extends Data, D extends Data, K = KeyType<
         (hasActual ? includesOrEqualsTo(actual, right) : !hasActual)
       );
     } catch {
+      /* istanbul ignore next */
       return false;
     }
   };
@@ -95,6 +98,7 @@ export default function treeChanges<P extends Data, D extends Data, K = KeyType<
     try {
       return compareNumbers<K>(previousData, data, { key, actual, previous, type: 'decreased' });
     } catch {
+      /* istanbul ignore next */
       return false;
     }
   };
@@ -105,6 +109,7 @@ export default function treeChanges<P extends Data, D extends Data, K = KeyType<
 
       return !!left.length && !right.length;
     } catch {
+      /* istanbul ignore next */
       return false;
     }
   };
@@ -115,6 +120,7 @@ export default function treeChanges<P extends Data, D extends Data, K = KeyType<
 
       return !left.length && !!right.length;
     } catch {
+      /* istanbul ignore next */
       return false;
     }
   };
@@ -127,6 +133,7 @@ export default function treeChanges<P extends Data, D extends Data, K = KeyType<
     try {
       return compareNumbers<K>(previousData, data, { key, actual, previous, type: 'increased' });
     } catch {
+      /* istanbul ignore next */
       return false;
     }
   };
@@ -135,6 +142,7 @@ export default function treeChanges<P extends Data, D extends Data, K = KeyType<
     try {
       return compareValues<K>(previousData, data, { key, type: 'removed', value });
     } catch {
+      /* istanbul ignore next */
       return false;
     }
   };
