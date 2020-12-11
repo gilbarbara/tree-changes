@@ -1,13 +1,6 @@
 import * as equal from 'fast-deep-equal';
 import is from 'is-lite';
-import {
-  hasExtraKeys,
-  compareNumbers,
-  compareValues,
-  getIterables,
-  includesOrEqualsTo,
-  nested,
-} from './helpers';
+import { compareNumbers, compareValues, getIterables, includesOrEqualsTo, nested } from './helpers';
 
 import { Data, KeyType, TreeChanges, Value } from './types';
 
@@ -25,35 +18,7 @@ export default function treeChanges<P extends Data, D extends Data, K = KeyType<
 
   const added = (key?: K, value?: Value): boolean => {
     try {
-      const left = nested(previousData, key);
-      const right = nested(data, key);
-
-      if (!is.nullOrUndefined(value)) {
-        if (is.defined(left)) {
-          // check if nested data matches
-          if (is.array(right) || is.plainObject(right)) {
-            return compareValues(left, right, value);
-          }
-        } else {
-          return equal(right, value);
-        }
-
-        return false;
-      }
-
-      if ([left, right].every(is.array)) {
-        return !right.every((d: any) => left.indexOf(d) >= 0);
-      }
-
-      if ([left, right].every(is.plainObject)) {
-        return hasExtraKeys(Object.keys(left), Object.keys(right));
-      }
-
-      return (
-        ![left, right].every(d => is.primitive(d) && is.defined(d)) &&
-        !is.defined(left) &&
-        is.defined(right)
-      );
+      return compareValues<K>(previousData, data, { key, type: 'added', value });
     } catch {
       return false;
     }
@@ -80,7 +45,7 @@ export default function treeChanges<P extends Data, D extends Data, K = KeyType<
       }
 
       return left !== right;
-    } catch (error) {
+    } catch {
       return false;
     }
   };
@@ -128,7 +93,7 @@ export default function treeChanges<P extends Data, D extends Data, K = KeyType<
     }
 
     try {
-      return compareNumbers(previousData, data, { key, actual, previous, type: 'decreased' });
+      return compareNumbers<K>(previousData, data, { key, actual, previous, type: 'decreased' });
     } catch {
       return false;
     }
@@ -137,6 +102,7 @@ export default function treeChanges<P extends Data, D extends Data, K = KeyType<
   const emptied = (key?: K): boolean => {
     try {
       const [left, right] = getIterables(previousData, data, { key });
+
       return !!left.length && !right.length;
     } catch {
       return false;
@@ -159,7 +125,7 @@ export default function treeChanges<P extends Data, D extends Data, K = KeyType<
     }
 
     try {
-      return compareNumbers(previousData, data, { key, actual, previous, type: 'increased' });
+      return compareNumbers<K>(previousData, data, { key, actual, previous, type: 'increased' });
     } catch {
       return false;
     }
@@ -167,36 +133,7 @@ export default function treeChanges<P extends Data, D extends Data, K = KeyType<
 
   const removed = (key?: K, value?: Value): boolean => {
     try {
-      const left = nested(previousData, key);
-      const right = nested(data, key);
-
-      if (!is.nullOrUndefined(value)) {
-        if (is.defined(right)) {
-          // check if nested data matches
-          /* istanbul ignore else */
-          if (is.array(left) || is.plainObject(left)) {
-            return compareValues(right, left, value);
-          }
-        } else {
-          return equal(left, value);
-        }
-
-        return false;
-      }
-
-      if ([left, right].every(is.array)) {
-        return !right.every((d: any) => left.indexOf(d) >= 0);
-      }
-
-      if ([left, right].every(is.plainObject)) {
-        return hasExtraKeys(Object.keys(right), Object.keys(left));
-      }
-
-      return (
-        ![left, right].every(d => is.primitive(d) && is.defined(d)) &&
-        is.defined(left) &&
-        !is.defined(right)
-      );
+      return compareValues<K>(previousData, data, { key, type: 'removed', value });
     } catch {
       return false;
     }
