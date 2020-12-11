@@ -116,7 +116,7 @@ export function hasEntry(input: Value) {
     if (is.array(input)) {
       return (
         equal(input, value) ||
-        input.some(d => equal(d, value) || (is.array(value) && value.indexOf(d) >= 0))
+        input.some(d => equal(d, value) || (is.array(value) && isEqualPredicate(value)(d)))
       );
     }
 
@@ -136,7 +136,7 @@ export function hasExtraKeys(left: string[], right: string[]): boolean {
 export function hasValue(input: Value) {
   return (value: Value) => {
     if (is.array(input)) {
-      return input.some(d => equal(d, value) || (is.array(value) && value.indexOf(d) >= 0));
+      return input.some(d => equal(d, value) || (is.array(value) && isEqualPredicate(value)(d)));
     }
 
     return equal(input, value);

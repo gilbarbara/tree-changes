@@ -112,7 +112,7 @@ describe('tree-changes', () => {
       expect(added(undefined, { new: [{ id: 12 }] })).toBe(false);
 
       expect(added(undefined, [{ id: 12 }, { id: 13 }])).toBe(true);
-      expect(added(undefined, [{ id: 12 }])).toBe(false);
+      expect(added(undefined, [{ id: 12 }])).toBe(true);
 
       expect(added('data', { b: 2 })).toBe(true);
       expect(added('data', { a: 1 })).toBe(false);
