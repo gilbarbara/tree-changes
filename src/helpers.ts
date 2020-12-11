@@ -1,9 +1,28 @@
 import * as equal from 'fast-deep-equal';
 import is from 'is-lite';
-import { Data, Key, Options, ValidTypes, Value } from './types';
+import { CompareValuesOptions, Data, Key, Options, ValidTypes, Value } from './types';
 
 export function canHaveLength(...args: any): boolean {
   return args.every((d: unknown) => is.string(d) || is.array(d) || is.plainObject(d));
+}
+
+export function checkEquality(left: Data, right: Data, value: Value) {
+  if (!isSameType(left, right)) {
+    return false;
+  }
+
+  if ([left, right].every(is.array)) {
+    return !left.some(hasValue(value)) && right.some(hasValue(value));
+  }
+
+  /* istanbul ignore else */
+  if ([left, right].every(is.plainObject)) {
+    return (
+      !Object.entries(left).some(hasEntry(value)) && Object.entries(right).some(hasEntry(value))
+    );
+  }
+
+  return right === value;
 }
 
 export function compareNumbers<K = Key>(
@@ -29,23 +48,47 @@ export function compareNumbers<K = Key>(
   return changed;
 }
 
-export function compareValues(left: Data, right: Data, value: Value) {
-  if (!isSameType(left, right)) {
+export function compareValues<K = Key>(
+  previousData: Data,
+  data: Data,
+  options: CompareValuesOptions<K>,
+) {
+  const { key, type, value } = options;
+
+  const left = nested(previousData, key);
+  const right = nested(data, key);
+  const primary = type === 'added' ? left : right;
+  const secondary = type === 'added' ? right : left;
+
+  // console.log({ primary, secondary });
+
+  if (!is.nullOrUndefined(value)) {
+    if (is.defined(primary)) {
+      // check if nested data matches
+      if (is.array(primary) || is.plainObject(primary)) {
+        return checkEquality(primary, secondary, value);
+      }
+    } else {
+      return equal(secondary, value);
+    }
+
     return false;
   }
 
   if ([left, right].every(is.array)) {
-    return !left.some(hasValue(value)) && right.some(hasValue(value));
+    return !secondary.every(isEqualPredicate(primary));
   }
 
-  /* istanbul ignore else */
   if ([left, right].every(is.plainObject)) {
-    return (
-      !Object.entries(left).some(hasEntry(value)) && Object.entries(right).some(hasEntry(value))
-    );
+    return hasExtraKeys(Object.keys(primary), Object.keys(secondary));
   }
 
-  return right === value;
+  return (
+    ![left, right].every(d => is.primitive(d) && is.defined(d)) &&
+    (type === 'added'
+      ? !is.defined(left) && is.defined(right)
+      : is.defined(left) && !is.defined(right))
+  );
 }
 
 export function getIterables<K = Key>(previousData: Data, data: Data, { key }: Options<K> = {}) {
@@ -104,6 +147,10 @@ export function includesOrEqualsTo<T>(previousValue: T | T[], value: T): boolean
   return is.array(previousValue)
     ? previousValue.some(d => equal(d, value))
     : equal(previousValue, value);
+}
+
+export function isEqualPredicate(data: unknown[]) {
+  return (value: unknown) => !!data.find(d => equal(d, value));
 }
 
 export function isSameType(...args: ValidTypes[]): boolean {

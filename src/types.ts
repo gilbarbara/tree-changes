@@ -11,7 +11,13 @@ export interface Options<T = Key> {
   filter?: boolean;
   key?: T;
   previous?: Value;
-  type?: 'increased' | 'decreased';
+  type?: 'decreased' | 'increased';
+}
+
+export interface CompareValuesOptions<T = Key> {
+  key?: T;
+  type: 'added' | 'removed';
+  value?: Value;
 }
 
 export interface TreeChanges<K> {

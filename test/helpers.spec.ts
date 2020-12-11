@@ -1,5 +1,6 @@
 import {
   canHaveLength,
+  checkEquality,
   compareNumbers,
   compareValues,
   getIterables,
@@ -12,6 +13,9 @@ import {
 } from '../src/helpers';
 
 const left = {
+  conditions: {
+    isNewUser: true,
+  },
   data: [],
   hasData: false,
   hobbies: ['games'],
@@ -33,6 +37,7 @@ const left = {
 };
 
 const right = {
+  conditions: {},
   data: [{ a: 1 }],
   hasData: true,
   hobbies: ['games', 'movies'],
@@ -54,6 +59,7 @@ const right = {
     firstName: 'John',
     lastName: 'Doe',
     age: 32,
+    achievements: ['free-gift'],
   },
   status: 'done',
   version: '1.1',
@@ -67,6 +73,41 @@ describe('canHaveLength', () => {
 
     expect(canHaveLength(1, 0)).toBe(false);
     expect(canHaveLength(1, {})).toBe(false);
+  });
+});
+
+describe('checkEquality', () => {
+  it.each([
+    // Numbers
+    ['ratio', 0.4, true],
+    ['retries', 1, true],
+    ['retries', '1', false],
+
+    // Objects
+    // [{ color: '#333' }, 'options.ui', true],
+    ['options', { updatedAt: 1234567890 }, true],
+    ['messages', { id: 3, message: 'sup?' }, false],
+
+    // Arrays
+    ['data', [{ a: 1 }], true],
+
+    // String
+    ['status', 'idle', false],
+    ['status', 'done', true],
+    ['name', '', false],
+    ['name', 'John', true],
+  ])('%s with %p should be %p', (key, value, expected) => {
+    // @ts-ignore
+    expect(checkEquality(left[key], right[key], value)).toBe(expected);
+  });
+
+  it('should return false if input are not the same type', () => {
+    expect(checkEquality(left.data, right.settings, 0.8)).toBe(false);
+  });
+
+  it('should return true if the left side is undefined', () => {
+    // @ts-ignore
+    expect(checkEquality(undefined, right.settings, 0.8)).toBe(false);
   });
 });
 
@@ -93,18 +134,18 @@ describe('compareNumbers', () => {
 
   describe('decreased', () => {
     it.each([
-      ['ratio', undefined, undefined, true],
-      ['data', undefined, undefined, false],
-      ['options', undefined, undefined, false],
-      ['retries', undefined, undefined, false],
-      ['stats', undefined, undefined, false],
-      ['ratio', 0.4, undefined, true],
-      ['ratio', 0.9, undefined, false],
-      ['ratio', 10, undefined, false],
-      ['ratio', 0.4, 0.8, true],
-      ['ratio', 0.4, 0.1, false],
-      ['ratio', 0.4, 10, false],
-    ])('%p', (key, actual, previous, expected) => {
+      ['ratio', true, 'ratio', undefined, undefined],
+      ['data', false, 'data', undefined, undefined],
+      ['options', false, 'options', undefined, undefined],
+      ['retries', false, 'retries', undefined, undefined],
+      ['stats', false, 'stats', undefined, undefined],
+      ['ratio with 0.4', true, 'ratio', 0.4, undefined],
+      ['ratio with 0.9', false, 'ratio', 0.9, undefined],
+      ['ratio with 10', false, 'ratio', 10, undefined],
+      ['ratio with 0.4 and 0.8', true, 'ratio', 0.4, 0.8],
+      ['ratio with 0.4 and 0.1', false, 'ratio', 0.4, 0.1],
+      ['ratio with 0.4 and 10', false, 'ratio', 0.4, 10],
+    ])('%p', (_, expected, key, actual, previous) => {
       expect(compareNumbers(left, right, { key, actual, previous, type: 'decreased' })).toBe(
         expected,
       );
@@ -113,38 +154,52 @@ describe('compareNumbers', () => {
 });
 
 describe('compareValues', () => {
-  it.each([
-    // Numbers
-    ['ratio', 0.4, true],
-    ['retries', 1, true],
-    ['retries', '1', false],
-
-    // Objects
-    // [{ color: '#333' }, 'options.ui', true],
-    ['options', { updatedAt: 1234567890 }, true],
-    ['messages', { id: 3, message: 'sup?' }, false],
-
-    // Arrays
-    ['data', [{ a: 1 }], true],
-    // [['simple', 'clean'], 'options.tags', true],
-
-    // String
-    ['status', 'idle', false],
-    ['status', 'done', true],
-    ['name', '', false],
-    ['name', 'John', true],
-  ])('%s with %p should be %p', (key, value, expected) => {
-    // @ts-ignore
-    expect(compareValues(left[key], right[key], value)).toBe(expected);
+  describe('added', () => {
+    it.each([
+      ['data', true, 'data', undefined],
+      ['data with { a: 1 }', true, 'data', { a: 1 }],
+      ['data with [{ a: 1 }]', true, 'data', [{ a: 1 }]],
+      ['data with { b: 2 }', false, 'data', { b: 2 }],
+      ['hobbies with movies', true, 'hobbies', 'movies'],
+      ['hobbies with cooking', false, 'hobbies', 'cooking'],
+      ['messages', false, 'messages', undefined],
+      ['ratio', false, 'ratio', undefined],
+      ['settings', true, 'settings', undefined],
+      ['settings with { age: 32 }', true, 'settings', { age: 32 }],
+      ['settings with ["free-gift"]', true, 'settings', ['free-gift']],
+    ])('%p should be %p', (_, expected, key, value) => {
+      expect(compareValues(left, right, { key, type: 'added', value })).toBe(expected);
+    });
   });
 
-  it('should return false if input are not the same type', () => {
-    expect(compareValues(left.data, right.settings, 0.8)).toBe(false);
-  });
-
-  it('should return true if the left side is undefined', () => {
-    // @ts-ignore
-    expect(compareValues(undefined, right.settings, 0.8)).toBe(false);
+  describe('removed', () => {
+    it.each([
+      ['conditions', true, 'conditions', undefined],
+      [
+        'conditions with value',
+        true,
+        'conditions',
+        {
+          isNewUser: true,
+        },
+      ],
+      [
+        'conditions with unknown value',
+        false,
+        'conditions',
+        {
+          isOldUser: true,
+        },
+      ],
+      ['data', false, 'data', undefined],
+      ['hobbies', false, 'hobbies', undefined],
+      ['messages', true, 'messages', undefined],
+      ['messages', true, 'messages', { id: 1, message: 'hello' }],
+      ['ratio', false, 'ratio', undefined],
+      ['settings', false, 'settings', undefined],
+    ])('%p should be %p', (_, expected, key, value) => {
+      expect(compareValues(left, right, { key, type: 'removed', value })).toBe(expected);
+    });
   });
 });
 
