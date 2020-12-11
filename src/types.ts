@@ -18,6 +18,10 @@ export interface TreeChanges<K> {
   added: (key?: K, value?: Value) => boolean;
   changed: (key?: K | string, actual?: Value, previous?: Value) => boolean;
   changedFrom: (key: K | string, previous: Value, actual?: Value) => boolean;
+  /**
+   * @deprecated
+   * Use "changed" instead.
+   */
   changedTo: (key: K | string, actual: Value) => boolean;
   decreased: (key: K, actual?: Value, previous?: Value) => boolean;
   emptied: (key?: K) => boolean;
