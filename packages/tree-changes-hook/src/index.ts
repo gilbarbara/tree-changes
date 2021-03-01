@@ -1,8 +1,7 @@
 import { useEffect, useRef } from 'react';
 import * as equal from 'fast-deep-equal';
 
-import treeChanges from './index';
-import { Data, KeyType, TreeChanges } from './types';
+import treeChanges, { Data, KeyType, TreeChanges } from 'tree-changes';
 
 export default function useTreeChanges<T extends Data>(value: T) {
   const previousValue = useRef(value);
@@ -23,3 +22,6 @@ export default function useTreeChanges<T extends Data>(value: T) {
 
   return instance.current;
 }
+
+export { treeChanges };
+export * from 'tree-changes';

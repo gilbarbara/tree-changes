@@ -32,7 +32,9 @@ checks:
     config:
       threshold: 25
 exclude_patterns:
-  - coverage/**/*
-  - lib/**/*
+  - demo/**/*
   - node_modules/**/*
-  - test/**/*
+  - packages/**/coverage/**/*
+  - packages/**/esm/**/*
+  - packages/**/lib/**/*
+  - packages/**/test/**/*

@@ -149,3 +149,5 @@ export default function treeChanges<P extends Data, D extends Data, K = KeyType<
 
   return { added, changed, changedFrom, changedTo, decreased, emptied, filled, increased, removed };
 }
+
+export * from './types';
