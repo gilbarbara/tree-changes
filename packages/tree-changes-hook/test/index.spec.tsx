@@ -2,7 +2,7 @@ import * as React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { act } from 'react-dom/test-utils';
 
-import useTreeChanges from '../src/hook';
+import useTreeChanges from '../src';
 
 jest.useFakeTimers();
 

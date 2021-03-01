@@ -1,5 +1,5 @@
 import React from 'react';
-import useTreeChanges from 'tree-changes/lib/hook';
+import useTreeChanges from 'tree-changes-hook';
 
 import { Box, Button, Code, Group, Heading, Paragraph } from 'styled-minimal';
 
