@@ -11,7 +11,7 @@ npm install tree-changes
 ```
 
 > **Breaking changes**  
-> The React hook introduced in v0.6 now has it's own package: [tree-changes-hook](../../packages/tree-changes-hook).
+> The React hook introduced in v0.6 now has it's own package: [tree-changes-hook](https://github.com/gilbarbara/tree-changes/tree/master/packages/tree-changes-hook).
 
 ## Usage
 

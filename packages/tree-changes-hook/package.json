@@ -1,7 +1,7 @@
 {
   "name": "tree-changes-hook",
   "version": "0.6.1",
-  "description": "Get changes between two versions of data with similar shape",
+  "description": "React hook for tree-changes",
   "author": "Gil Barbara <gilbarbara@gmail.com>",
   "keywords": [
     "comparison",
@@ -17,7 +17,7 @@
   "bugs": {
     "url": "https://github.com/gilbarbara/tree-changes/issues"
   },
-  "homepage": "https://github.com/gilbarbara/tree-changes/tree-changes-hook#readme",
+  "homepage": "https://github.com/gilbarbara/tree-changes/tree/master/packages/tree-changes-hook#readme",
   "main": "lib/index.js",
   "module": "esm/index.js",
   "files": [
@@ -39,6 +39,10 @@
     "react": "^16.8.0 || ^17.0.0",
     "react-dom": "^17.0.1",
     "tree-changes": "^0.6.1"
+  },
+  "devDependencies": {
+    "del-cli": "^3.0.1",
+    "typescript": "^4.1.5"
   },
   "scripts": {
     "build": "npm run clean && npm run build:cjs && npm run build:esm",

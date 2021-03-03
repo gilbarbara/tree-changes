@@ -29,6 +29,10 @@
     "fast-deep-equal": "^3.1.3",
     "is-lite": "^0.8.0"
   },
+  "devDependencies": {
+    "del-cli": "^3.0.1",
+    "typescript": "^4.1.5"
+  },
   "scripts": {
     "build": "npm run clean && npm run build:cjs && npm run build:esm",
     "build:cjs": "tsc",

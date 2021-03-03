@@ -2,7 +2,7 @@
 
 [![NPM version](https://badge.fury.io/js/tree-changes-hook.svg)](https://www.npmjs.com/package/tree-changes-hook) [![build status](https://travis-ci.org/gilbarbara/tree-changes.svg)](https://travis-ci.org/gilbarbara/tree-changes) [![Maintainability](https://api.codeclimate.com/v1/badges/93528e49029782f5f7d2/maintainability)](https://codeclimate.com/github/gilbarbara/tree-changes/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/93528e49029782f5f7d2/test_coverage)](https://codeclimate.com/github/gilbarbara/tree-changes/test_coverage)
 
-React hook that uses [tree-changes](packages/tree-changes) to compare changes between two datasets.
+React hook that uses [tree-changes](https://github.com/gilbarbara/tree-changes/tree/master/packages/tree-changes) to compare changes between two datasets.
 
 ## Setup
 
@@ -33,7 +33,7 @@ function App(props) {
 
 ## API
 
-Please refer to [tree-changes](../../packages/tree-changes) README for detailed usage.
+Please refer to [tree-changes](https://github.com/gilbarbara/tree-changes/tree/master/packages/tree-changes) README for detailed usage.
 
 ## License
 
