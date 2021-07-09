@@ -27,11 +27,11 @@
   "sideEffects": false,
   "dependencies": {
     "fast-deep-equal": "^3.1.3",
-    "is-lite": "^0.8.0"
+    "is-lite": "^0.8.1"
   },
   "devDependencies": {
-    "del-cli": "^3.0.1",
-    "typescript": "^4.1.5"
+    "del-cli": "^4.0.0",
+    "typescript": "^4.3.5"
   },
   "scripts": {
     "build": "npm run clean && npm run build:cjs && npm run build:esm",
@@ -44,11 +44,16 @@
     "test": "jest",
     "test:coverage": "jest --coverage --bail",
     "test:watch": "jest --watchAll --verbose",
+    "typecheck": "tsc --noEmit",
     "format": "prettier \"**/*.{js,jsx,json,yml,yaml,css,less,scss,ts,tsx,md,graphql,mdx}\" --write",
-    "validate": "npm run lint && npm run test:coverage && npm run build && npm run size",
+    "validate": "npm run lint && npm run typecheck && npm run test:coverage && npm run build && npm run size",
     "size": "size-limit",
     "prepublishOnly": "npm run validate"
   },
+  "eslintConfig": {
+    "extends": ["@gilbarbara/eslint-config"]
+  },
+  "prettier": "@gilbarbara/prettier-config",
   "size-limit": [
     {
       "path": "./lib/index.js",
