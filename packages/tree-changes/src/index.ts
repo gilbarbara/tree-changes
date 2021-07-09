@@ -1,7 +1,7 @@
 import * as equal from 'fast-deep-equal';
 import is from 'is-lite';
-import { compareNumbers, compareValues, getIterables, includesOrEqualsTo, nested } from './helpers';
 
+import { compareNumbers, compareValues, getIterables, includesOrEqualsTo, nested } from './helpers';
 import { Data, KeyType, TreeChanges, Value } from './types';
 
 export default function treeChanges<P extends Data, D extends Data, K = KeyType<P, D>>(

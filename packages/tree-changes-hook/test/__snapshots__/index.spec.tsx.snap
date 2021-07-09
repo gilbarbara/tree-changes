@@ -8,7 +8,9 @@ exports[`useTreeChanges with state 1`] = `
     <h1>
       tree-changes
     </h1>
-    <button>
+    <button
+      type="button"
+    >
       Clicked 
       0
        times
@@ -28,7 +30,9 @@ exports[`useTreeChanges with state 2`] = `
     <h1>
       tree-changes
     </h1>
-    <button>
+    <button
+      type="button"
+    >
       Clicked 
       0
        times

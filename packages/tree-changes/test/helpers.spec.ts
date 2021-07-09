@@ -4,10 +4,10 @@ import {
   compareNumbers,
   compareValues,
   getIterables,
-  includesOrEqualsTo,
   hasEntry,
   hasExtraKeys,
   hasValue,
+  includesOrEqualsTo,
   isSameType,
   nested,
 } from '../src/helpers';
@@ -249,7 +249,7 @@ describe('hasValue', () => {
 });
 
 describe('includesOrEqualsTo', () => {
-  it('should ', () => {
+  it('should match', () => {
     expect(
       includesOrEqualsTo(
         {

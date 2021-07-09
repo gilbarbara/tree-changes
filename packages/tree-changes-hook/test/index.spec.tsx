@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { fireEvent, render, screen } from '@testing-library/react';
 import { act } from 'react-dom/test-utils';
+import { fireEvent, render, screen } from '@testing-library/react';
 
 import useTreeChanges from '../src';
 
@@ -24,7 +24,7 @@ function WithState() {
     isReady: false,
     milestones: [],
   });
-  const { added, changed, filled, removed, emptied } = useTreeChanges(state);
+  const { added, changed, emptied, filled, removed } = useTreeChanges(state);
 
   React.useEffect(() => {
     setTimeout(() => {
@@ -77,7 +77,7 @@ function WithState() {
     if (emptied('milestones')) {
       mockState('emptied:milestones');
     }
-  }, [changed, state]);
+  }, [added, changed, emptied, filled, removed, state]);
 
   const handleClickCount = () => {
     setState(s => ({ ...s, count: s.count + 1 }));
@@ -87,7 +87,9 @@ function WithState() {
     <div data-testid="app">
       <header>
         <h1>tree-changes</h1>
-        <button onClick={handleClickCount}>Clicked {state.count} times</button>
+        <button onClick={handleClickCount} type="button">
+          Clicked {state.count} times
+        </button>
         {state.isReady ? <p>side-effect is complete</p> : <p>loading...</p>}
       </header>
     </div>

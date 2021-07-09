@@ -61,20 +61,16 @@ describe('tree-changes', () => {
   describe('basic', () => {
     it('should throw without all parameters', () => {
       // @ts-ignore
-      expect(() => treeChanges()).toThrowError('Missing required parameters');
+      expect(() => treeChanges()).toThrow('Missing required parameters');
       // @ts-ignore
-      expect(() => treeChanges(A)).toThrowError('Missing required parameters');
+      expect(() => treeChanges(A)).toThrow('Missing required parameters');
     });
 
     it('should throw with invalid parameters', () => {
       // @ts-ignore
-      expect(() => treeChanges(A.missing, B.missing)).toThrowError(
-        'Expected plain objects or array',
-      );
+      expect(() => treeChanges(A.missing, B.missing)).toThrow('Expected plain objects or array');
       // @ts-ignore
-      expect(() => treeChanges(A.hasData, B.hasData)).toThrowError(
-        'Expected plain objects or array',
-      );
+      expect(() => treeChanges(A.hasData, B.hasData)).toThrow('Expected plain objects or array');
     });
   });
 
@@ -366,6 +362,7 @@ describe('tree-changes', () => {
 
     it('with objects', () => {
       const { emptied } = treeChanges(A, B);
+
       expect(emptied('messages')).toBe(true);
 
       expect(emptied('notifications')).toBe(false);
