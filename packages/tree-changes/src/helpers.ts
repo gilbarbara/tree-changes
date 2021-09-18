@@ -3,8 +3,8 @@ import is from 'is-lite';
 
 import { CompareValuesOptions, Data, Key, Options, ValidTypes, Value } from './types';
 
-export function canHaveLength(...args: any): boolean {
-  return args.every((d: unknown) => is.string(d) || is.array(d) || is.plainObject(d));
+export function canHaveLength(...arguments_: any): boolean {
+  return arguments_.every((d: unknown) => is.string(d) || is.array(d) || is.plainObject(d));
 }
 
 export function checkEquality(left: Data, right: Data, value: Value) {
@@ -131,7 +131,7 @@ export function hasEntry(input: Value) {
 }
 
 export function hasExtraKeys(left: string[], right: string[]): boolean {
-  return right.some(d => left.indexOf(d) < 0);
+  return right.some(d => !left.includes(d));
 }
 
 export function hasValue(input: Value) {
@@ -151,15 +151,15 @@ export function includesOrEqualsTo<T>(previousValue: T | T[], value: T): boolean
 }
 
 export function isEqualPredicate(data: unknown[]) {
-  return (value: unknown) => !!data.find(d => equal(d, value));
+  return (value: unknown) => data.some(d => equal(d, value));
 }
 
-export function isSameType(...args: ValidTypes[]): boolean {
+export function isSameType(...arguments_: ValidTypes[]): boolean {
   return (
-    args.every(is.array) ||
-    args.every(is.number) ||
-    args.every(is.plainObject) ||
-    args.every(is.string)
+    arguments_.every(is.array) ||
+    arguments_.every(is.number) ||
+    arguments_.every(is.plainObject) ||
+    arguments_.every(is.string)
   );
 }
 

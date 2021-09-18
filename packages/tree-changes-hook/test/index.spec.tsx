@@ -44,7 +44,7 @@ function WithState() {
     }
 
     if (changed('count', 3)) {
-      setState(s => ({ ...s, milestones: s.milestones.concat(3) }));
+      setState(s => ({ ...s, milestones: [...s.milestones, 3] }));
       mockState('changed:count:3');
     }
 
@@ -57,7 +57,7 @@ function WithState() {
     }
 
     if (changed('count', 6)) {
-      setState(s => ({ ...s, milestones: s.milestones.concat(6) }));
+      setState(s => ({ ...s, milestones: [...s.milestones, 6] }));
       mockState('changed:count:6');
     }
 
