@@ -1,3 +1,5 @@
 {
+  "node": "14",
+  "packages": ["packages/tree-changes", "packages/tree-changes-hook"],
   "sandboxes": ["/demo"]
 }
