@@ -1,4 +1,4 @@
-import * as equal from 'fast-deep-equal';
+import equal from 'fast-deep-equal';
 import is from 'is-lite';
 
 import { compareNumbers, compareValues, getIterables, includesOrEqualsTo, nested } from './helpers';

@@ -1,4 +1,4 @@
-import * as equal from 'fast-deep-equal';
+import equal from 'fast-deep-equal';
 import is from 'is-lite';
 
 import { CompareValuesOptions, Data, Key, Options, ValidTypes, Value } from './types';
