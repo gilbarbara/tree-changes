@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import * as equal from 'fast-deep-equal';
+import * as equal from 'fast-deep-equal/react';
 import treeChanges, { Data, KeyType, TreeChanges } from 'tree-changes';
 
 export default function useTreeChanges<T extends Data>(value: T) {
