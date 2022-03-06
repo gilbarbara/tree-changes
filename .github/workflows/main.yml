@@ -65,6 +65,6 @@ jobs:
 
       - name: Publish Packages
         if: startsWith(github.ref, 'refs/tags/')
-        run: lerna publish from-git
+        run: lerna publish from-git --yes
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
