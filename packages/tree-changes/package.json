@@ -26,7 +26,7 @@
   "types": "lib",
   "sideEffects": false,
   "dependencies": {
-    "fast-deep-equal": "^3.1.3",
+    "@gilbarbara/deep-equal": "^0.1.0",
     "is-lite": "^0.8.1"
   },
   "devDependencies": {
@@ -59,11 +59,11 @@
   "size-limit": [
     {
       "path": "./lib/index.js",
-      "limit": "3 kB"
+      "limit": "4 kB"
     },
     {
       "path": "./esm/index.js",
-      "limit": "3 kB"
+      "limit": "4 kB"
     }
   ]
 }
