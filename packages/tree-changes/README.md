@@ -65,7 +65,7 @@ changed(1); // true
 changed('1.id', 4); // true
 ```
 
-> It uses [fast-deep-equal](https://github.com/epoberezkin/fast-deep-equal) to compare properties.
+> It uses [@gilbarbara/deep-equal](https://github.com/gilbarbara/deep-equal) to compare properties.
 
 ## API
 

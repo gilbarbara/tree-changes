@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import * as equal from 'fast-deep-equal/react';
+import equal from '@gilbarbara/deep-equal';
 import treeChanges, { Data, KeyType, TreeChanges } from 'tree-changes';
 
 export default function useTreeChanges<T extends Data>(value: T) {
@@ -22,5 +22,6 @@ export default function useTreeChanges<T extends Data>(value: T) {
   return instance.current;
 }
 
+// eslint-disable-next-line unicorn/prefer-export-from
 export { treeChanges };
 export * from 'tree-changes';
