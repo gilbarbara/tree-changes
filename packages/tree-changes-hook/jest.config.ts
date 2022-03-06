@@ -9,6 +9,7 @@ module.exports = {
       statements: 90,
     },
   },
+  coverageReporters: [['lcov', { projectRoot: '../..' }]],
   moduleFileExtensions: ['js', 'ts', 'tsx', 'json'],
   moduleDirectories: ['node_modules', 'src', './'],
   preset: 'ts-jest',
