@@ -1,6 +1,6 @@
 {
   "name": "tree-changes-hook",
-  "version": "0.8.0",
+  "version": "0.9.0",
   "description": "React hook for tree-changes",
   "author": "Gil Barbara <gilbarbara@gmail.com>",
   "keywords": [
@@ -32,7 +32,7 @@
   },
   "dependencies": {
     "@gilbarbara/deep-equal": "^0.1.0",
-    "tree-changes": "^0.8.0"
+    "tree-changes": "^0.9.0"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.14.1",
