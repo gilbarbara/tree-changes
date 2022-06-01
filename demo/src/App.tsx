@@ -1,7 +1,7 @@
+/* eslint-disable no-console */
 import React from 'react';
+import { Box, Button, H1, H2, Paragraph, Spacer, Tag } from '@gilbarbara/components';
 import useTreeChanges from 'tree-changes-hook';
-
-import { Box, Button, Code, Group, Heading, Paragraph } from 'styled-minimal';
 
 interface State {
   count: number;
@@ -17,7 +17,7 @@ function App() {
     isReady: false,
     milestones: [],
   });
-  const { added, changed, filled, emptied, removed } = useTreeChanges(state);
+  const { added, changed, emptied, filled, removed } = useTreeChanges(state);
 
   React.useEffect(() => {
     setTimeout(() => {
@@ -32,7 +32,7 @@ function App() {
     }
 
     if (changed('count', 3)) {
-      setState(s => ({ ...s, milestones: s.milestones.concat(3) }));
+      setState(s => ({ ...s, milestones: [...s.milestones, 3] }));
       console.log('changed:count:3');
     }
 
@@ -45,7 +45,7 @@ function App() {
     }
 
     if (changed('count', 6)) {
-      setState(s => ({ ...s, milestones: s.milestones.concat(6) }));
+      setState(s => ({ ...s, milestones: [...s.milestones, 6] }));
       console.log('changed:count:6');
     }
 
@@ -54,7 +54,7 @@ function App() {
     }
 
     if (changed('count', 9)) {
-      setState(s => ({ ...s, milestones: s.milestones.concat(9) }));
+      setState(s => ({ ...s, milestones: [...s.milestones, 9] }));
       console.log('changed:count:6');
     }
 
@@ -81,10 +81,8 @@ function App() {
   };
 
   return (
-    <Box minHeight="100vh" pt={5} textAlign="center">
-      <Box mb={4}>
-        <Heading>tree-changes</Heading>
-      </Box>
+    <Box minHeight="100vh" pt="lg" textAlign="center">
+      <H1>tree-changes-hook</H1>
 
       {state.isReady ? (
         <Button onClick={handleClickCount}>
@@ -95,12 +93,16 @@ function App() {
       )}
 
       {!!state.milestones.length && (
-        <Group mt={3} justifyContent="center">
-          <Paragraph mb={1}>Milestones:</Paragraph>
-          {state.milestones.map(d => (
-            <Code key={d}>{d}</Code>
-          ))}
-        </Group>
+        <Box mt="md">
+          <H2>Milestones:</H2>
+          <Spacer distribution="center">
+            {state.milestones.map(d => (
+              <Tag key={d} shade="mid">
+                {d}
+              </Tag>
+            ))}
+          </Spacer>
+        </Box>
       )}
     </Box>
   );
