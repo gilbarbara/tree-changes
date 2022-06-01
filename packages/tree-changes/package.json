@@ -26,12 +26,12 @@
   "types": "lib",
   "sideEffects": false,
   "dependencies": {
-    "@gilbarbara/deep-equal": "^0.1.0",
-    "is-lite": "^0.8.1"
+    "@gilbarbara/deep-equal": "^0.1.1",
+    "is-lite": "^0.8.2"
   },
   "devDependencies": {
     "del-cli": "^4.0.1",
-    "typescript": "^4.4.3"
+    "typescript": "^4.7.2"
   },
   "scripts": {
     "build": "npm run clean && npm run build:cjs && npm run build:esm",
