@@ -4,14 +4,13 @@
 
 Compare changes between two datasets.
 
+> The React hook introduced in v0.6 now has its own package: [tree-changes-hook](https://github.com/gilbarbara/tree-changes/tree/master/packages/tree-changes-hook).
+
 ## Setup
 
 ```bash
 npm install tree-changes
 ```
-
-> **Breaking changes**  
-> The React hook introduced in v0.6 now has it's own package: [tree-changes-hook](https://github.com/gilbarbara/tree-changes/tree/master/packages/tree-changes-hook).
 
 ## Usage
 
