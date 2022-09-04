@@ -1,10 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`getIterables should get iterables 1`] = `
-Array [
-  Array [],
-  Array [
-    Object {
+[
+  [],
+  [
+    {
       "a": 1,
     },
   ],
@@ -12,9 +12,9 @@ Array [
 `;
 
 exports[`getIterables should get iterables 2`] = `
-Array [
-  Array [],
-  Array [
+[
+  [],
+  [
     "ui",
     "updatedAt",
   ],
@@ -22,7 +22,7 @@ Array [
 `;
 
 exports[`getIterables should get iterables 3`] = `
-Array [
+[
   "idle",
   "done",
 ]
