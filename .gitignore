@@ -12,7 +12,8 @@ local.properties
 ###########################
 .tmp
 coverage
-dist
+esm
+lib
 node_modules
 
 # OS generated files #
