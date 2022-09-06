@@ -18,14 +18,17 @@
     "url": "https://github.com/gilbarbara/tree-changes/issues"
   },
   "homepage": "https://github.com/gilbarbara/tree-changes/tree/master/packages/tree-changes-hook#readme",
-  "main": "lib/index.js",
-  "module": "esm/index.js",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "exports": {
+    "import": "./dist/index.mjs",
+    "require": "./dist/index.js"
+  },
   "files": [
-    "esm",
-    "lib",
+    "dist",
     "src"
   ],
-  "types": "lib",
+  "types": "dist",
   "sideEffects": false,
   "peerDependencies": {
     "react": "16 - 18"
@@ -36,19 +39,16 @@
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.16.5",
-    "@testing-library/react": "^13.3.0",
+    "@testing-library/react": "^13.4.0",
     "@types/react": "^18.0.18",
     "@types/react-dom": "^18.0.6",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
   "scripts": {
-    "build": "npm run clean && npm run build:cjs && npm run build:esm",
-    "build:cjs": "tsc",
-    "build:esm": "tsc -m es6 --outDir esm",
-    "watch:cjs": "npm run build:cjs -- -w",
-    "watch:esm": "npm run build:esm -- -w",
-    "clean": "del lib/* && del esm/*",
+    "build": "npm run clean && esbuilder --cjs --esm && npm run build:types",
+    "build:types": "tsc --emitDeclarationOnly",
+    "clean": "del dist/*",
     "lint": "eslint src test",
     "test": "jest",
     "test:coverage": "jest --coverage --bail",
@@ -68,12 +68,12 @@
   "size-limit": [
     {
       "name": "cjs",
-      "path": "./lib/index.js",
+      "path": "./dist/index.js",
       "limit": "5 kB"
     },
     {
       "name": "esm",
-      "path": "./esm/index.js",
+      "path": "./dist/index.mjs",
       "limit": "4 kB"
     }
   ]
