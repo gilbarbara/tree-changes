@@ -1,7 +1,8 @@
 {
   "extends": "@gilbarbara/tsconfig",
   "compilerOptions": {
-    "outDir": "./dist"
+    "outDir": "./lib",
+    "target": "es5"
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "**/*.spec.ts"]
