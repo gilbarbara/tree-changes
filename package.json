@@ -3,6 +3,7 @@
   "private": true,
   "dependencies": {
     "@gilbarbara/deep-equal": "^0.1.1",
+    "@gilbarbara/esbuilder": "^0.1.0",
     "@gilbarbara/eslint-config": "^0.3.5",
     "@gilbarbara/prettier-config": "^0.1.0",
     "@gilbarbara/tsconfig": "^0.1.1",
@@ -11,7 +12,6 @@
     "@types/node": "^18.7.15",
     "del-cli": "^5.0.0",
     "husky": "^8.0.1",
-    "is-lite": "^0.8.2",
     "jest": "^29.0.2",
     "jest-environment-jsdom": "^29.0.2",
     "lerna": "^5.5.0",
