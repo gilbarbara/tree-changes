@@ -21,27 +21,29 @@
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "exports": {
-    "import": "./dist/index.mjs",
-    "require": "./dist/index.js"
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
   },
   "files": [
     "dist",
     "src"
   ],
-  "types": "dist",
+  "types": "dist/index.d.ts",
   "sideEffects": false,
   "peerDependencies": {
-    "react": "16 - 18"
+    "react": "16.8 - 18"
   },
   "dependencies": {
-    "@gilbarbara/deep-equal": "^0.1.1",
-    "tree-changes": "^0.10.0"
+    "@gilbarbara/deep-equal": "^0.3.1",
+    "tree-changes": "workspace:*"
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "^5.16.5",
-    "@testing-library/react": "^13.4.0",
-    "@types/react": "^18.0.18",
-    "@types/react-dom": "^18.0.6",
+    "@testing-library/jest-dom": "^6.1.4",
+    "@testing-library/react": "^14.0.0",
+    "@types/react": "^18.2.28",
+    "@types/react-dom": "^18.2.13",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },

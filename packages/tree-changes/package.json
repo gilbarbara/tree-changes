@@ -19,18 +19,20 @@
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "exports": {
-    "import": "./dist/index.mjs",
-    "require": "./dist/index.js"
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
   },
   "files": [
     "dist",
     "src"
   ],
-  "types": "dist",
+  "types": "dist/index.d.ts",
   "sideEffects": false,
   "dependencies": {
-    "@gilbarbara/deep-equal": "^0.1.1",
-    "is-lite": "^0.9.2"
+    "@gilbarbara/deep-equal": "^0.3.1",
+    "is-lite": "^1.2.0"
   },
   "scripts": {
     "build": "npm run clean && esbuilder --cjs --esm && npm run build:types",
