@@ -4,8 +4,6 @@
 
 Compare changes between two datasets.
 
-> The React hook introduced in v0.6 now has its own package: [tree-changes-hook](https://github.com/gilbarbara/tree-changes/tree/master/packages/tree-changes-hook).
-
 ## Setup
 
 ```bash
@@ -14,7 +12,7 @@ npm install tree-changes
 
 ## Usage
 
-```typescript
+```ts
 import treeChanges from 'tree-changes';
 
 const previousData = {
@@ -64,7 +62,7 @@ changed(1); // true
 changed('1.id', 4); // true
 ```
 
-> It uses [@gilbarbara/deep-equal](https://github.com/gilbarbara/deep-equal) to compare properties.
+> This library uses [@gilbarbara/deep-equal](https://github.com/gilbarbara/deep-equal) to compare properties.
 
 ## API
 
