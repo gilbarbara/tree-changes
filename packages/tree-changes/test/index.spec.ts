@@ -284,46 +284,6 @@ describe('tree-changes', () => {
     });
   });
 
-  describe('changedTo', () => {
-    it('should handle calls without the `key` parameter', () => {
-      const { changedTo } = treeChanges(A, B);
-
-      // @ts-ignore
-      expect(changedTo()).toBe(false);
-    });
-
-    it('with arrays', () => {
-      const { changedTo } = treeChanges(A.versions, B.versions);
-
-      expect(changedTo(0, '0.1')).toBe(false);
-      expect(changedTo(1, 0.6)).toBe(true);
-      expect(changedTo(1, 0.5)).toBe(false);
-      expect(changedTo(2, 0.9)).toBe(true);
-      expect(changedTo('3.id', '2.0.0')).toBe(true);
-    });
-
-    it('with objects', () => {
-      const { changedTo } = treeChanges(A, B);
-
-      expect(changedTo('status', 'idle')).toBe(false);
-      expect(changedTo('status', ['ready', 'done'])).toBe(true);
-
-      expect(changedTo('hasData', false)).toBe(false);
-      expect(changedTo('hasData', true)).toBe(true);
-
-      expect(changedTo('data', { a: 1 })).toBe(false);
-      expect(changedTo('data', '')).toBe(false);
-
-      expect(changedTo('sort.status', 'running')).toBe(false);
-      expect(changedTo('sort.status', 'loaded')).toBe(true);
-
-      expect(changedTo('sort.data.0.type', 'desc')).toBe(true);
-      expect(changedTo('sort.data.1.type', 'asc')).toBe(true);
-
-      expect(changedTo('retries', 1)).toBe(true);
-    });
-  });
-
   describe('decreased', () => {
     it('should handle calls without the `key` parameter', () => {
       const { decreased } = treeChanges(A, B);

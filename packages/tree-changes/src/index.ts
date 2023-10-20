@@ -72,24 +72,6 @@ export default function treeChanges<P extends Data, D extends Data, K = KeyType<
     }
   };
 
-  /**
-   * @deprecated
-   * Use "changed" instead
-   */
-  const changedTo = (key: K | string, actual: Value): boolean => {
-    if (!is.defined(key)) {
-      return false;
-    }
-
-    /* istanbul ignore next */
-    if (process.env.NODE_ENV === 'development') {
-      // eslint-disable-next-line no-console
-      console.warn('`changedTo` is deprecated! Replace it with `change`');
-    }
-
-    return changed(key, actual);
-  };
-
   const decreased = (key: K, actual?: Value, previous?: Value): boolean => {
     if (!is.defined(key)) {
       return false;
@@ -147,7 +129,7 @@ export default function treeChanges<P extends Data, D extends Data, K = KeyType<
     }
   };
 
-  return { added, changed, changedFrom, changedTo, decreased, emptied, filled, increased, removed };
+  return { added, changed, changedFrom, decreased, emptied, filled, increased, removed };
 }
 
 export type { Data, KeyType, TreeChanges, Value } from './types';

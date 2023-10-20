@@ -61,8 +61,6 @@ export function compareValues<K = Key>(
   const primary = type === 'added' ? left : right;
   const secondary = type === 'added' ? right : left;
 
-  // console.log({ primary, secondary });
-
   if (!is.nullOrUndefined(value)) {
     if (is.defined(primary)) {
       // check if nested data matches
