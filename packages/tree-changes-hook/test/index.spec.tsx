@@ -1,14 +1,14 @@
-import * as React from 'react';
+import { useEffect, useState } from 'react';
 import { act } from 'react-dom/test-utils';
 import { fireEvent, render, screen } from '@testing-library/react';
 
 import useTreeChanges from '../src';
 
-jest.useFakeTimers();
+vi.useFakeTimers();
 
-const mockState = jest.fn();
-const mockRatio = jest.fn();
-const mockSize = jest.fn();
+const mockState = vi.fn();
+const mockRatio = vi.fn();
+const mockSize = vi.fn();
 
 interface State {
   count: number;
@@ -18,7 +18,7 @@ interface State {
 }
 
 function WithState() {
-  const [state, setState] = React.useState<State>({
+  const [state, setState] = useState<State>({
     count: 0,
     isActive: false,
     isReady: false,
@@ -26,13 +26,13 @@ function WithState() {
   });
   const { added, changed, emptied, filled, removed } = useTreeChanges(state);
 
-  React.useEffect(() => {
+  useEffect(() => {
     setTimeout(() => {
       setState(s => ({ ...s, isActive: true }));
     }, 1500);
   }, []);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (changed('isActive', true)) {
       setState(s => ({ ...s, isReady: true }));
 
@@ -99,7 +99,7 @@ function WithState() {
 function WithProps(props: any) {
   const { changed } = useTreeChanges(props);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (changed('ratio')) {
       mockRatio();
     }
@@ -148,7 +148,7 @@ describe('useTreeChanges', () => {
     expect(screen.getByTestId('app')).toMatchSnapshot();
 
     act(() => {
-      jest.runOnlyPendingTimers();
+      vi.runAllTimers();
     });
 
     expect(mockState).toHaveBeenCalledWith('changes:isActive');

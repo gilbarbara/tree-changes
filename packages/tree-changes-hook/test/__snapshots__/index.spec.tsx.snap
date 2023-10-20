@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`useTreeChanges with state 1`] = `
+exports[`useTreeChanges > with state 1`] = `
 <div
   data-testid="app"
 >
@@ -22,7 +22,7 @@ exports[`useTreeChanges with state 1`] = `
 </div>
 `;
 
-exports[`useTreeChanges with state 2`] = `
+exports[`useTreeChanges > with state 2`] = `
 <div
   data-testid="app"
 >

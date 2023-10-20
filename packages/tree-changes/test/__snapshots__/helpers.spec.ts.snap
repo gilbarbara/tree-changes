@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`getIterables should get iterables 1`] = `
+exports[`getIterables > should get iterables 1`] = `
 [
   [],
   [
@@ -11,7 +11,7 @@ exports[`getIterables should get iterables 1`] = `
 ]
 `;
 
-exports[`getIterables should get iterables 2`] = `
+exports[`getIterables > should get iterables 2`] = `
 [
   [],
   [
@@ -21,7 +21,7 @@ exports[`getIterables should get iterables 2`] = `
 ]
 `;
 
-exports[`getIterables should get iterables 3`] = `
+exports[`getIterables > should get iterables 3`] = `
 [
   "idle",
   "done",
