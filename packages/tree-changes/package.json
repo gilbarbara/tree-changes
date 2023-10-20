@@ -15,7 +15,7 @@
   "bugs": {
     "url": "https://github.com/gilbarbara/tree-changes/issues"
   },
-  "homepage": "https://github.com/gilbarbara/tree-changes#readme",
+  "homepage": "https://github.com/gilbarbara/tree-changes/tree/main/packages/tree-changes#readme",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "exports": {
@@ -34,14 +34,17 @@
     "@gilbarbara/deep-equal": "^0.3.1",
     "is-lite": "^1.2.0"
   },
+  "devDependencies": {
+    "vitest": "^0.34.6"
+  },
   "scripts": {
     "build": "npm run clean && tsup && ts-node scripts/fix-cjs.ts",
     "watch": "tsup --watch",
     "clean": "del dist/*",
     "lint": "eslint src test",
-    "test": "jest",
-    "test:coverage": "jest --coverage --bail",
-    "test:watch": "jest --watchAll --verbose",
+    "test": "is-ci \"test:coverage\" \"test:watch\"",
+    "test:coverage": "vitest run --coverage",
+    "test:watch": "vitest watch",
     "typecheck": "tsc --noEmit",
     "format": "prettier \"**/*.{js,jsx,json,yml,yaml,css,less,scss,ts,tsx,md,graphql,mdx}\" --write",
     "validate": "npm run lint && npm run typecheck && npm run test:coverage && npm run build && npm run size",
