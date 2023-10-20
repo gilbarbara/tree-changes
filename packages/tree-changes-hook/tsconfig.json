@@ -1,8 +1,10 @@
 {
   "extends": "@gilbarbara/tsconfig",
   "compilerOptions": {
-    "outDir": "./dist"
+    "outDir": "./dist",
+    "paths": {
+      "tree-changes": ["./packages/tree-changes"]
+    }
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "**/*.spec.ts"]
+  "include": ["src/**/*"]
 }

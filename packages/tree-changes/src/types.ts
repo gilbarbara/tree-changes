@@ -1,9 +1,10 @@
-export type ValidTypes = string | boolean | number | PlainObject;
+type PlainObject = Record<string, any>;
+
 export type Comparator = Array<string | any[]>;
 export type Data = PlainObject | ValidTypes[];
 export type Key = string | number;
 export type KeyType<P, D> = P | D extends any[] ? Key : keyof P | keyof D;
-export type PlainObject = Record<string, any>;
+export type ValidTypes = string | boolean | number | PlainObject;
 export type Value = ValidTypes | ValidTypes[];
 
 export interface Options<T = Key> {
