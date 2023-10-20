@@ -35,8 +35,8 @@
     "is-lite": "^1.2.0"
   },
   "scripts": {
-    "build": "npm run clean && esbuilder --cjs --esm && npm run build:types",
-    "build:types": "tsc --emitDeclarationOnly",
+    "build": "npm run clean && tsup && ts-node scripts/fix-cjs.ts",
+    "watch": "tsup --watch",
     "clean": "del dist/*",
     "lint": "eslint src test",
     "test": "jest",
@@ -47,6 +47,19 @@
     "validate": "npm run lint && npm run typecheck && npm run test:coverage && npm run build && npm run size",
     "size": "size-limit",
     "prepublishOnly": "npm run validate"
+  },
+  "tsup": {
+    "cjsInterop": true,
+    "dts": true,
+    "entry": [
+      "src/index.ts"
+    ],
+    "format": [
+      "cjs",
+      "esm"
+    ],
+    "sourcemap": true,
+    "splitting": false
   },
   "eslintConfig": {
     "extends": [
