@@ -1,6 +1,6 @@
 {
   "name": "tree-changes-hook",
-  "version": "0.11.0",
+  "version": "0.11.1",
   "description": "React hook for tree-changes",
   "author": "Gil Barbara <gilbarbara@gmail.com>",
   "keywords": [
