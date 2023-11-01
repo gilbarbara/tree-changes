@@ -1,6 +1,7 @@
 {
   "extends": "@gilbarbara/tsconfig",
   "compilerOptions": {
+    "jsx": "react",
     "outDir": "./dist",
     "paths": {
       "tree-changes": ["./packages/tree-changes"]
