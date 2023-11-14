@@ -1,9 +1,8 @@
-// eslint-disable-next-line import/no-relative-packages
-import { replace, type ReplaceOptions } from '../../../scripts/replace';
+import { replaceContent, type ReplaceContentOptions } from '@gilbarbara/node-helpers';
 
-export const fixCjsDts = async (options?: Partial<ReplaceOptions>) => {
-  return replace({
-    files: '**/*.d.{ts,cts}',
+export const fixCjsDts = async (options?: Partial<ReplaceContentOptions>) => {
+  return replaceContent({
+    pattern: '**/*.d.{ts,cts}',
     ...options,
     name: 'fix-cjs-dts',
 
@@ -36,7 +35,7 @@ export = UseTreeChanges;`;
   });
 };
 
-export const fixCjsExports = async (options?: Partial<ReplaceOptions>) => {
+export const fixCjsExports = async (options?: Partial<ReplaceContentOptions>) => {
   const statement = `
 // fix-cjs-exports
 if (module.exports.default) {
@@ -46,8 +45,8 @@ if (module.exports.default) {
 }
 `;
 
-  return replace({
-    files: '**/*.js',
+  return replaceContent({
+    pattern: '**/*.js',
     ...options,
     name: 'fix-cjs-exports',
 
