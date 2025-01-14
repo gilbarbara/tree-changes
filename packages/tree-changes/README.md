@@ -1,6 +1,6 @@
 # tree-changes
 
-[![NPM version](https://badge.fury.io/js/tree-changes.svg)](https://www.npmjs.com/package/tree-changes) [![build status](https://travis-ci.org/gilbarbara/tree-changes.svg)](https://travis-ci.org/gilbarbara/tree-changes) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=gilbarbara-github_tree-changes&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=gilbarbara-github_tree-changes) [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=gilbarbara-github_tree-changes&metric=coverage)](https://sonarcloud.io/summary/new_code?id=gilbarbara-github_tree-changes)
+[![NPM version](https://badge.fury.io/js/tree-changes.svg)](https://www.npmjs.com/package/tree-changes) [![build status](https://travis-ci.org/gilbarbara/tree-changes.svg)](https://travis-ci.org/gilbarbara/tree-changes) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=gilbarbara_tree-changes&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=gilbarbara_tree-changes) [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=gilbarbara_tree-changes&metric=coverage)](https://sonarcloud.io/summary/new_code?id=gilbarbara_tree-changes)
 
 Compare changes between two datasets.
 
