@@ -1,6 +1,6 @@
 {
   "name": "tree-changes",
-  "version": "0.11.2",
+  "version": "0.11.3",
   "description": "Get changes between two versions of data with similar shape",
   "author": "Gil Barbara <gilbarbara@gmail.com>",
   "keywords": [
